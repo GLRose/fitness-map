@@ -18,7 +18,7 @@ export function setDate(){
     currentDate = addDays(currentDate, 1);
   }
 
-  //Testing values directly
+  // Testing values directly
   // dateRange[0].activity = true;
   // dateRange[0].level = 0;
   // dateRange[1].activity = true;

@@ -11,14 +11,42 @@
 }
 
 .box-item {
-  background-color: grey;
+  background-color: #4A4A4A;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white; 
+
 }
 
-.box-item-lvl-0 {
+.default-box-item-lvl-0 {
+  background-color: #2D68C4;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+}
+
+.default-box-item-lvl-1 {
+  background-color: #1A4A96;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+}
+
+.default-box-item-lvl-2 {
+  background-color: #143A78;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+}
+
+/* Put theme definitions here */
+
+/*Pink*/
+.powerPink-box-item-lvl-0 {
   background-color: lightpink;
   height: 30px;
   width: 30px;
@@ -26,7 +54,7 @@
   border-color: white;
 }
 
-.box-item-lvl-1 {
+.powerPink-box-item-lvl-1 {
   background-color: hotpink;
   height: 30px;
   width: 30px;
@@ -34,20 +62,49 @@
   border-color: white;
 }
 
-.box-item-lvl-2 {
+
+.powerPink-box-item-lvl-2 {
   background-color: deeppink;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
 }
+
+/*Green*/
+.growingGreen-box-item-lvl-0 {
+  background-color: #5CE65C;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+}
+
+.growingGreen-box-item-lvl-1 {
+  background-color: #008000;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+}
+
+
+.growingGreen-box-item-lvl-2 {
+  background-color: #0F4D0F;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+}
+
 /* start of form */
 .form {
   display: flex;
   width: 300px;
   height: 300px;
-  background-color: #0A1A2F;
-  margin: 200px auto;
+  /* add back if you want inputs */
+  /* background-color: #0A1A2F; */
+  margin: 100px auto;
   border-style: rounded;
   border-color: white;
   border-radius: 20px;
@@ -79,18 +136,45 @@
 }
 
 .submit-form {
-  background-color: #35FF69;
   display: flex;
   width: 200px;
-  height: 30px;
+  height: 80px;
   border-style: rounded;
+  border-radius: 8px;
   border-color: white;
-  border-radius: 200px;
-  font-family: times new roman;
-  font-size: 25px;
+  font-family: "Outfit";
+  font-size: 30px;
   justify-content: center;
   align-items: center;
+  background-color: #3C635F;
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
+
+/* theme names */
+.theme-names-container{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.theme-header{
+  font-family: "Outfit";
+}
+
+.theme-names{
+  justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  font-family: "Outfit";
+  gap: 5px;
+}
+
 body {
-  background-color: #007BFF;
+  background-color: #81D8D0;
 }
+
+
+

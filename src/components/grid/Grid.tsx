@@ -1,44 +1,59 @@
 import Boxes from '@/components/boxes/Boxes'
 import { setDate } from "@/utils/dateRange.ts"
-import { useState } from "react"
+import { useState, useEffect} from "react"
+
+export interface DateItem {
+  date: string;
+  activity: boolean;
+  level: number;
+  theme?: string;
+}
 
 export default function Grid(){
-
-  // const [dateRange, setDateRange] = useState<Array<{ date: string; activity: boolean; level: number }>>(() => setDate());
   const [dateRange, setDateRange] = useState<DateItem[]>(() => {
     const saved = localStorage.getItem("dateRange");
     return saved ? JSON.parse(saved) : setDate();
   });
 
+  const [themeName, setThemeName] = useState("");
+
+  const [checkBoxChecked, setCheckBoxChecked] = useState("default");
+
+  useEffect(() => {
+    localStorage.setItem("dateRange", JSON.stringify(dateRange));
+  }, [dateRange]);
+
+
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const todayIndex = dateRange.length -1;
-    //Study below
-    if (todayIndex === -1) return;
+    setDateRange(prev => {
+      if (prev.length === 0) return prev;
 
-    const newDateRange = [...dateRange];              
-    newDateRange[todayIndex] = {                     
-      ...newDateRange[todayIndex],
-      activity: true
-    };
+      const todayIndex = prev.length - 1;
 
-    localStorage.setItem("dateStuff", JSON.stringify(newDateRange));
+      const updated = [...prev];
+      updated[todayIndex] = {
+        ...updated[todayIndex],
+        activity: true,
+        theme: themeName,
+      };
 
-    //I hate this hack fix it pls
-    const saved = localStorage.getItem("dateStuff");
-    if (saved) {
-      setDateRange(JSON.parse(saved));  
-      if (dateRange.length === 0) return;
-
-      const todayIndex = dateRange.length - 1;
-      const updatedRange = [...dateRange];
-      updatedRange[todayIndex] = { ...updatedRange[todayIndex], activity: true };
-
-      setDateRange(updatedRange);
-      localStorage.setItem("dateRange", JSON.stringify(updatedRange));
-    }
+      return updated;
+    });
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target.name;
+    const newTheme = e.target.checked ? target : "";
+
+    setCheckBoxChecked(target);
+    setThemeName(newTheme);
+    setDateRange(prev => prev.map(item => ({
+      ...item,
+      theme: newTheme
+    })));
+  }
 
   const elements = [];
 
@@ -46,26 +61,39 @@ export default function Grid(){
     const item = dateRange[i];
     
     const className =
-      item.activity && item.level === 0 ? "box-item-lvl-0" :
-      item.activity && item.level === 1 ? "box-item-lvl-1" :
-      item.activity && item.level === 2 ? "box-item-lvl-2" :
-      "box-item";
+      item.activity && item.theme ? `${item.theme}-box-item-lvl-${item.level}` :
+      item.activity && item.level === 0 ? "default-box-item-lvl-0":
+      item.activity && item.level === 1 ? "default-box-item-lvl-1":
+      item.activity && item.level === 2 ? "default-box-item-lvl-2":
+      "box-item"; 
 
     elements.push(<div key={i} className={className}></div>);
   }
 
   return (
-  <>
-  <Boxes elements={elements}/>
-    <form className="form" onSubmit={onSubmit}>
-      <div className="form-inputs"> 
-        <input className="form-input-fields" name="activity"/>
-        <input className="form-input-fields"/>
+    <>
 
-        <button type="submit" className="submit-form">Log Activity</button>
+    <div className="theme-names-container">
+    <div className="theme-names">
+    <p>Default</p>
+    <input type="checkbox" name="default" checked={checkBoxChecked === "default"} onChange={handleChange}/>
+    <p> Power Pink </p>
+    <input type="checkbox" name="powerPink" checked={checkBoxChecked === "powerPink"} onChange={handleChange}/>
+    <p> Growing Green </p>
+    <input type="checkbox" name="growingGreen" checked={checkBoxChecked === "growingGreen"} onChange={handleChange}/>
+    </div>
+    </div>
+    <Boxes elements={elements}/>
+    <form className="form" onSubmit={onSubmit}>
+    {/*
+      <div className="form-inputs"> 
+      <input className="form-input-fields" name="activity"/>
+      <input className="form-input-fields"/>
       </div> 
+    */}   
+    <button type="submit" className="submit-form">Log Activity</button>
     </form> 
-  </>
+    </>
   ) ;
 }
 
