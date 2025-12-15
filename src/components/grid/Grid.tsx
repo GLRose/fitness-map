@@ -15,13 +15,17 @@ export default function Grid(){
     return saved ? JSON.parse(saved) : setDate();
   });
 
-  const [themeName, setThemeName] = useState("");
+const [themeName, setThemeName] = useState("");
 
-  const [checkBoxChecked, setCheckBoxChecked] = useState("default");
+const [checkBoxChecked, setCheckBoxChecked] = useState(() => {
+const saved = localStorage.getItem('checkedOption');
+    return saved || 'default';
+  });
 
   useEffect(() => {
     localStorage.setItem("dateRange", JSON.stringify(dateRange));
-  }, [dateRange]);
+    localStorage.setItem('checkedOption', checkBoxChecked)
+  }, [dateRange, checkBoxChecked]);
 
 
   const onSubmit = (event: React.FormEvent) => {
@@ -74,16 +78,35 @@ export default function Grid(){
     <>
 
     <div className="theme-names-container">
-    <div className="theme-names">
-    <p>Default</p>
-    <input type="checkbox" name="default" checked={checkBoxChecked === "default"} onChange={handleChange}/>
-    <p> Power Pink </p>
-    <input type="checkbox" name="powerPink" checked={checkBoxChecked === "powerPink"} onChange={handleChange}/>
-    <p> Growing Green </p>
-    <input type="checkbox" name="growingGreen" checked={checkBoxChecked === "growingGreen"} onChange={handleChange}/>
+      <div className="theme-names">
+        <p>Default</p>
+        <input
+          type="radio"
+          name="default"
+          checked={checkBoxChecked === "default"}
+          onChange={handleChange}
+        />
+
+        <p> Power Pink </p>
+        <input
+          type="radio"
+          name="powerPink"
+          checked={checkBoxChecked === "powerPink"}
+          onChange={handleChange}
+          />
+
+        <p> Growing Green </p>
+        <input
+          type="radio"
+          name="growingGreen"
+          checked={checkBoxChecked === "growingGreen"}
+          onChange={handleChange}
+        />
+      </div>
     </div>
-    </div>
+
     <Boxes elements={elements}/>
+
     <form className="form" onSubmit={onSubmit}>
     {/*
       <div className="form-inputs"> 
@@ -91,8 +114,11 @@ export default function Grid(){
       <input className="form-input-fields"/>
       </div> 
     */}   
-    <button type="submit" className="submit-form">Log Activity</button>
-    </form> 
+      <button type="submit" className="submit-form">
+        Log Activity
+      </button>
+    </form>
+
     </>
   ) ;
 }

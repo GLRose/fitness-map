@@ -19,14 +19,14 @@ export function setDate(){
   }
 
   // Testing values directly
-  // dateRange[0].activity = true;
-  // dateRange[0].level = 0;
-  // dateRange[1].activity = true;
-  // dateRange[56].activity = true;
-  // dateRange[56].level = 1;
-  // dateRange[109].activity = true;
-  // dateRange[109].level = 2;
-  // dateRange[340].activity = true;
+  dateRange[0].activity = true;
+  dateRange[0].level = 0;
+  dateRange[1].activity = true;
+  dateRange[56].activity = true;
+  dateRange[56].level = 1;
+  dateRange[109].activity = true;
+  dateRange[109].level = 2;
+  dateRange[340].activity = true;
 
   // let today = dateRange.length - 1;
   // dateRange[today].activity = true;
