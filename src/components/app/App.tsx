@@ -1,14 +1,19 @@
-import '@/styles/index.css'
-import '@/styles/links.css'
 import Grid from '@/components/grid/Grid.tsx'
 import Links from '@/components/links/Links.tsx'
+import { Theme } from '@radix-ui/themes'
+import '@/styles/index.css'
+import '@/styles/links.css'
+
+import "@radix-ui/themes/styles.css";
 
 function App() {
 
   return (
     <>
-      <Grid/>
-      <Links/>
+        <Theme style={{backgroundColor: "#7373FF"}}>
+          <Grid/>
+          <Links/>
+        </Theme>
     </>
   )
 }

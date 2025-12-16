@@ -28,7 +28,7 @@ const saved = localStorage.getItem('checkedOption');
   }, [dateRange, checkBoxChecked]);
 
 
-  const onSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setDateRange(prev => {
@@ -47,7 +47,7 @@ const saved = localStorage.getItem('checkedOption');
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
     const target = e.target.name;
     const newTheme = e.target.checked ? target : "";
 
@@ -107,7 +107,7 @@ const saved = localStorage.getItem('checkedOption');
 
     <Boxes elements={elements}/>
 
-    <form className="form" onSubmit={onSubmit}>
+    <form className="form" onSubmit={handleSubmit}>
     {/*
       <div className="form-inputs"> 
       <input className="form-input-fields" name="activity"/>
@@ -118,7 +118,7 @@ const saved = localStorage.getItem('checkedOption');
         Log Activity
       </button>
     </form>
-
+           		 
     </>
   ) ;
 }

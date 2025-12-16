@@ -155,6 +155,7 @@
 
 /* theme names */
 .theme-names-container{
+  /* background-color: white; */
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
@@ -173,7 +174,9 @@
 }
 
 body {
-  background-color: lightblue;
+  /* background-color: lightblue; */
+  margin: 0;
+  padding: 0;
 }
 
 
