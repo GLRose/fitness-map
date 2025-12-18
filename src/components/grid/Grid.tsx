@@ -107,13 +107,7 @@ const saved = localStorage.getItem('checkedOption');
 
     <Boxes elements={elements}/>
 
-    <form className="form" onSubmit={handleSubmit}>
-    {/*
-      <div className="form-inputs"> 
-      <input className="form-input-fields" name="activity"/>
-      <input className="form-input-fields"/>
-      </div> 
-    */}   
+    <form className="form" onSubmit={handleSubmit}>   
       <button type="submit" className="submit-form">
         Log Activity
       </button>

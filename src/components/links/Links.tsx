@@ -4,6 +4,7 @@ import LinksCard from "@/components/cards/LinksCard";
 interface LinkItem {
   url: string;
   workoutTitle: string;
+  activityText: string;
 }
 
 export default function Links() {
@@ -23,17 +24,21 @@ export default function Links() {
     event.preventDefault();
     if (!url.trim()) return;
 
-    setLinks(prev => [...prev, { url: url, workoutTitle: "" }]);
+    setLinks(prev => [...prev, { url: url, workoutTitle: "", activityText: "" }]);
     setUrl("");
   };
 
-  const updateWorkoutTitle = (index: number, title: string) => {
+  //This functiion is evolving weridly with activity.. design properly
+  const updateInputs = (index: number, title: string, activityDescription: string) => {
     setLinks(prev => {
       const updated = [...prev];
       updated[index] = {
         ...updated[index],
         workoutTitle: title,
+        activityText: activityDescription,
       };
+
+      console.log(updated)
 
       return updated;
     });
@@ -65,7 +70,8 @@ export default function Links() {
             key={index}
             link={item.url}
             workoutTitle={item.workoutTitle}
-            onAdd={(title) => updateWorkoutTitle(index, title)}
+            activityText ={item.activityText}
+            onAdd={(title, activityDescription) => updateInputs(index, title, activityDescription)}
             onDelete={() => handleDelete(index)}
           />
         ))}
