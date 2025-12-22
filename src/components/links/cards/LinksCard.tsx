@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import {
   Box,
-  Text,
   IconButton,
   Card,
   Flex,
   TextField,
   Button,
-  Link,
 } from '@radix-ui/themes';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { getYouTubeThumbnail } from '@/utils/getYoutubeThumbnail';
 import { format } from 'date-fns';
+import EditMode from './EditMode';
 
 const currentDate = format(new Date(), 'yyyy-MM-dd');
 
@@ -61,49 +60,13 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
         <Flex gap="3" align="center">
           <Box style={{ width: '100%' }}>
             {!isEditing ? (
-              <>
-                <Text
-                  as="div"
-                  size="5"
-                  weight="bold"
-                  style={{ marginBottom: '5px', cursor: 'pointer' }}
-                  onClick={() => setIsEditing(true)}
-                >
-                  {workoutTitle.toUpperCase() || 'Untitled Workout'}
-                </Text>
-
-                <Text as="div" size="2" weight="bold">
-                  Activity Description:
-                </Text>
-
-                <Text
-                  as="div"
-                  size="2"
-                  weight="regular"
-                  style={{ marginBottom: '5px', cursor: 'pointer' }}
-                  onClick={() => setIsEditing(true)}
-                >
-                  {activityText || 'Untitled Activity'}
-                </Text>
-
-                <Text as="div" size="2" weight="bold">
-                  Url:
-                </Text>
-
-                <Link
-                  href={url}
-                  size="2"
-                  weight="regular"
-                  style={{ marginBottom: '5px', cursor: 'pointer' }}
-                >
-                  {url}
-                </Link>
-
-                <Text as="div" size="2" weight="bold">
-                  Completed On:
-                </Text>
-                {currentDate}
-              </>
+              <EditMode
+                workoutTitle={workoutTitle}
+                activityText={activityText}
+                url={url}
+                currentDate={currentDate}
+                onEdit={() => setIsEditing(true)}
+              />
             ) : (
               <Flex gap="2" direction="column" style={{ marginBottom: '50px' }}>
                 <TextField.Root
