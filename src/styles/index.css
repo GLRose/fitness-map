@@ -11,16 +11,15 @@
 }
 
 .box-item {
-  background-color: #4A4A4A;
+  background-color: #4a4a4a;
   height: 30px;
   width: 30px;
   border-style: solid;
-  border-color: white; 
-
+  border-color: white;
 }
 
 .default-box-item-lvl-0 {
-  background-color: #2D68C4;
+  background-color: #2d68c4;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -28,7 +27,7 @@
 }
 
 .default-box-item-lvl-1 {
-  background-color: #1A4A96;
+  background-color: #1a4a96;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -36,7 +35,7 @@
 }
 
 .default-box-item-lvl-2 {
-  background-color: #143A78;
+  background-color: #143a78;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -62,7 +61,6 @@
   border-color: white;
 }
 
-
 .powerPink-box-item-lvl-2 {
   background-color: deeppink;
   height: 30px;
@@ -73,7 +71,7 @@
 
 /*Green*/
 .growingGreen-box-item-lvl-0 {
-  background-color: #5CE65C;
+  background-color: #5ce65c;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -88,9 +86,8 @@
   border-color: white;
 }
 
-
 .growingGreen-box-item-lvl-2 {
-  background-color: #0F4D0F;
+  background-color: #0f4d0f;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -109,7 +106,7 @@
   border-color: white;
   border-radius: 20px;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 
 .form-inputs {
@@ -142,11 +139,11 @@
   border-style: rounded;
   border-radius: 8px;
   border-color: white;
-  font-family: "Outfit";
+  font-family: 'Outfit';
   font-size: 30px;
   justify-content: center;
   align-items: center;
-  background-color: #3C635F;
+  background-color: #3c635f;
   color: white;
   box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
   transition: all 0.2s ease;
@@ -154,22 +151,22 @@
 }
 
 /* theme names */
-.theme-names-container{
+.theme-names-container {
   /* background-color: white; */
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
 
-.theme-header{
-  font-family: "Outfit";
+.theme-header {
+  font-family: 'Outfit';
 }
 
-.theme-names{
+.theme-names {
   justify-content: flex-end;
   display: flex;
   flex-direction: row;
-  font-family: "Outfit";
+  font-family: 'Outfit';
   gap: 5px;
 }
 
@@ -178,6 +175,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-
-

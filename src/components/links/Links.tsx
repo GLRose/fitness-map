@@ -1,36 +1,40 @@
-import { useState, useEffect } from "react";
-import LinksCard from "@/components/cards/LinksCard";
-
-interface LinkItem {
-  url: string;
-  workoutTitle: string;
-  activityText: string;
-}
+import { useState, useEffect } from 'react';
+import LinksCard from '@/components/links/cards/LinksCard';
+import type { WorkoutDetails } from '@/components/links/cards/LinksCard';
 
 export default function Links() {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
 
-  const [links, setLinks] = useState<LinkItem[]>(() => {
-  const saved = localStorage.getItem("links");
+  const [links, setLinks] = useState<WorkoutDetails[]>(() => {
+    const saved = localStorage.getItem('links');
     return saved ? JSON.parse(saved) : [];
   });
-  
+
   // persist to localStorage
   useEffect(() => {
-    localStorage.setItem("links", JSON.stringify(links));
+    localStorage.setItem('links', JSON.stringify(links));
   }, [links]);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!url.trim()) return;
 
-    setLinks(prev => [...prev, { url: url, workoutTitle: "", activityText: "" }]);
-    setUrl("");
+    const newLink: WorkoutDetails = {
+      url: url.trim(),
+      workoutTitle: '',
+      activityText: '',
+    };
+
+    setLinks((prev) => [...prev, newLink]);
+    setUrl('');
   };
 
-  //This functiion is evolving weridly with activity.. design properly
-  const updateInputs = (index: number, title: string, activityDescription: string) => {
-    setLinks(prev => {
+  const updateInputs = (
+    index: number,
+    title: string,
+    activityDescription: string
+  ) => {
+    setLinks((prev) => {
       const updated = [...prev];
       updated[index] = {
         ...updated[index],
@@ -38,16 +42,14 @@ export default function Links() {
         activityText: activityDescription,
       };
 
-      console.log(updated)
-
       return updated;
     });
   };
 
   const handleDelete = (index: number) => {
-    setLinks(prev => prev.filter((_, i) => i !== index));
+    setLinks((prev) => prev.filter((_, i) => i !== index));
   };
-  
+
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -55,7 +57,7 @@ export default function Links() {
           <input
             className="video-links"
             value={url}
-            onChange={e => setUrl(e.target.value)}
+            onChange={(e) => setUrl(e.target.value)}
             placeholder="Paste video url"
           />
           <button type="submit" className="submit-video-link">
@@ -64,14 +66,22 @@ export default function Links() {
         </div>
       </form>
 
-      <ul style={{display: "flex", flexWrap: 'wrap', gap: "16px", listStyle: "none", padding: 0}}>
-        {links.map((item, index) => (
+      <ul
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '16px',
+          listStyle: 'none',
+          padding: 0,
+        }}
+      >
+        {links.map((link, index) => (
           <LinksCard
             key={index}
-            link={item.url}
-            workoutTitle={item.workoutTitle}
-            activityText ={item.activityText}
-            onAdd={(title, activityDescription) => updateInputs(index, title, activityDescription)}
+            data={link}
+            onAdd={(title, activityDescription) =>
+              updateInputs(index, title, activityDescription)
+            }
             onDelete={() => handleDelete(index)}
           />
         ))}
@@ -79,4 +89,3 @@ export default function Links() {
     </>
   );
 }
-

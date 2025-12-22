@@ -1,4 +1,4 @@
-.link-inputs{
+.link-inputs {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,12 +7,12 @@
   gap: 3px;
 }
 
-.submit-video-link{
+.submit-video-link {
   width: 100px;
   height: 40px;
 }
 
-.video-links{
+.video-links {
   width: 150px;
   height: 40px;
 }
