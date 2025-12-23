@@ -1,6 +1,7 @@
 import Boxes from '@/components/boxes/Boxes';
 import { setDate } from '@/utils/dateRange.ts';
 import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 
 export interface DateItem {
   date: string;
@@ -15,7 +16,10 @@ export default function Grid() {
     return saved ? JSON.parse(saved) : setDate();
   });
 
-  const [themeName, setThemeName] = useState('');
+  const [themeName, setThemeName] = useState(() => {
+    const saved = localStorage.getItem('checkedOption');
+    return saved || 'default';
+  });
 
   const [checkBoxChecked, setCheckBoxChecked] = useState(() => {
     const saved = localStorage.getItem('checkedOption');
@@ -28,57 +32,31 @@ export default function Grid() {
     localStorage.setItem('checkedOption', checkBoxChecked);
   }, [dateRange, checkBoxChecked]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent, targetDate?: string) => {
     event.preventDefault();
 
-    setDateRange((prev) => {
-      if (prev.length === 0) return prev;
+    const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
 
-      const todayIndex = prev.length - 1;
-
-      const updated = [...prev];
-      updated[todayIndex] = {
-        ...updated[todayIndex],
-        activity: true,
-        theme: themeName,
-      };
-
-      return updated;
-    });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target.name;
-    const newTheme = e.target.checked ? target : '';
-
-    setCheckBoxChecked(target);
-    setThemeName(newTheme);
     setDateRange((prev) =>
-      prev.map((item) => ({
-        ...item,
-        theme: newTheme,
-      }))
+      prev.map((item) =>
+        item.date === dateToMark ? { ...item, activity: true } : item
+      )
     );
   };
 
-  const elements = [];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTheme = e.target.name;
+    setCheckBoxChecked(newTheme);
+    setThemeName(newTheme);
+  };
 
-  for (let i = 0; i < dateRange.length; i++) {
-    const item = dateRange[i];
+  const elements = dateRange.map((item, i) => {
+    const className = item.activity
+      ? `${themeName || 'default'}-box-item-lvl-${item.level ?? 0}`
+      : 'box-item';
 
-    const className =
-      item.activity && item.theme
-        ? `${item.theme}-box-item-lvl-${item.level}`
-        : item.activity && item.level === 0
-          ? 'default-box-item-lvl-0'
-          : item.activity && item.level === 1
-            ? 'default-box-item-lvl-1'
-            : item.activity && item.level === 2
-              ? 'default-box-item-lvl-2'
-              : 'box-item';
-
-    elements.push(<div key={i} className={className}></div>);
-  }
+    return <div key={i} className={className}></div>;
+  });
 
   return (
     <>

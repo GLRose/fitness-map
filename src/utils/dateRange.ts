@@ -6,7 +6,7 @@ export function setDate() {
 
   let currentDate = parse(startDate, 'yyyy-MM-dd', new Date());
 
-  const boundaryDate = addDays(endDate, 1);
+  const boundaryDate = endDate;
 
   const dateRange: Array<{ date: string; activity: boolean; level: number }> =
     [];
