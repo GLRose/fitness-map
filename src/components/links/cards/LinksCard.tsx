@@ -9,15 +9,14 @@ import {
 } from '@radix-ui/themes';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { getYouTubeThumbnail } from '@/utils/getYoutubeThumbnail';
-import { format } from 'date-fns';
 import EditMode from './EditMode';
-
-const currentDate = format(new Date(), 'yyyy-MM-dd');
+import { format, isValid } from 'date-fns';
 
 export interface WorkoutDetails {
   url: string;
   workoutTitle: string;
   activityText: string;
+  date: string;
 }
 
 interface LinksCardProps {
@@ -27,10 +26,12 @@ interface LinksCardProps {
 }
 
 export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
-  const { url, workoutTitle, activityText } = data;
+  const { url, workoutTitle, activityText, date } = data;
   const [isEditing, setIsEditing] = useState(!workoutTitle);
   const [inputValue, setInputValue] = useState(workoutTitle);
   const [activityDescription, setActivityDescription] = useState(activityText);
+  const parsedDate = new Date(date);
+  const formattedDate = isValid(parsedDate) ? format(date, 'MMM dd, yyyy') : '';
 
   const handleSubmit = () => {
     if (!inputValue.trim() || !activityDescription.trim()) return;
@@ -64,7 +65,7 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
                 workoutTitle={workoutTitle}
                 activityText={activityText}
                 url={url}
-                currentDate={currentDate}
+                currentDate={formattedDate}
                 onEdit={() => setIsEditing(true)}
               />
             ) : (

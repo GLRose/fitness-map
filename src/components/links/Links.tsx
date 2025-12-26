@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import LinksCard from '@/components/links/cards/LinksCard';
 import type { WorkoutDetails } from '@/components/links/cards/LinksCard';
+import { format } from 'date-fns';
 
 export default function Links() {
   const [url, setUrl] = useState('');
@@ -23,6 +24,7 @@ export default function Links() {
       url: url.trim(),
       workoutTitle: '',
       activityText: '',
+      date: '',
     };
 
     setLinks((prev) => [...prev, newLink]);
@@ -40,6 +42,7 @@ export default function Links() {
         ...updated[index],
         workoutTitle: title,
         activityText: activityDescription,
+        date: updated[index].date || format(new Date(), 'yyyy-MM-dd'),
       };
 
       return updated;

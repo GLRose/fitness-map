@@ -54,7 +54,11 @@ export default function EditMode({
       </Text>
 
       <Text as="div" size="2">
-        {currentDate}
+        {currentDate && (
+          <Text size="1" color="gray" style={{ marginTop: '8px' }}>
+            Added: {currentDate}
+          </Text>
+        )}
       </Text>
     </>
   );

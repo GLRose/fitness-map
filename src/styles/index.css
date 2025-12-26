@@ -16,82 +16,92 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
-.default-box-item-lvl-0 {
+.default-box-item-lvl-easy {
   background-color: #2d68c4;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
-.default-box-item-lvl-1 {
+.default-box-item-lvl-medium {
   background-color: #1a4a96;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
-.default-box-item-lvl-2 {
+.default-box-item-lvl-hard {
   background-color: #143a78;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
 /* Put theme definitions here */
 
 /*Pink*/
-.powerPink-box-item-lvl-0 {
+.powerPink-box-item-lvl-easy {
   background-color: lightpink;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
-.powerPink-box-item-lvl-1 {
+.powerPink-box-item-lvl-medium {
   background-color: hotpink;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
-.powerPink-box-item-lvl-2 {
+.powerPink-box-item-lvl-hard {
   background-color: deeppink;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
 /*Green*/
-.growingGreen-box-item-lvl-0 {
+.growingGreen-box-item-lvl-easy {
   background-color: #5ce65c;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
-.growingGreen-box-item-lvl-1 {
+.growingGreen-box-item-lvl-medium {
   background-color: #008000;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
-.growingGreen-box-item-lvl-2 {
+.growingGreen-box-item-lvl-hard {
   background-color: #0f4d0f;
   height: 30px;
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 1px;
 }
 
 /* start of form */
@@ -148,6 +158,7 @@
   box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
   transition: all 0.2s ease;
   cursor: pointer;
+  margin: 20px;
 }
 
 /* theme names */

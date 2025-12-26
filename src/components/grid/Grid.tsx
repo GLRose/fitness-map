@@ -1,12 +1,15 @@
 import Boxes from '@/components/boxes/Boxes';
 import { setDate } from '@/utils/dateRange.ts';
 import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
+import { format, addDays, parse } from 'date-fns';
+import { Text } from '@radix-ui/themes';
+
+export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
 export interface DateItem {
   date: string;
   activity: boolean;
-  level: number;
+  level: DifficultyLevel;
   theme?: string;
 }
 
@@ -23,25 +26,74 @@ export default function Grid() {
 
   const [checkBoxChecked, setCheckBoxChecked] = useState(() => {
     const saved = localStorage.getItem('checkedOption');
-    console.log(saved);
     return saved || 'default';
   });
+
+  const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>(
+    () =>
+      (localStorage.getItem('difficultyOption') as DifficultyLevel) ?? 'easy'
+  );
 
   useEffect(() => {
     localStorage.setItem('dateRange', JSON.stringify(dateRange));
     localStorage.setItem('checkedOption', checkBoxChecked);
   }, [dateRange, checkBoxChecked]);
 
-  const handleSubmit = (event: React.FormEvent, targetDate?: string) => {
+  //Simplify this process a bit more
+  const handleSubmit = (
+    event: React.FormEvent,
+    targetDate?: string,
+    level?: DifficultyLevel
+  ) => {
     event.preventDefault();
-
     const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
+    const selectedLevel = level ?? difficultyLevel;
 
-    setDateRange((prev) =>
-      prev.map((item) =>
-        item.date === dateToMark ? { ...item, activity: true } : item
-      )
-    );
+    setDateRange((prev) => {
+      // Check if date exists in range
+      const dateExists = prev.some((item) => item.date === dateToMark);
+      //
+      // if (dateExists) {
+      //   return prev;
+      // }
+
+      if (!dateExists) {
+        // Add the missing date(s) to the array
+        const lastDate = prev[prev.length - 1]?.date;
+        if (lastDate) {
+          const newDates: DateItem[] = [...prev];
+          let currentDate = addDays(
+            parse(lastDate, 'yyyy-MM-dd', new Date()),
+            1
+          );
+          const targetDateParsed = parse(dateToMark, 'yyyy-MM-dd', new Date());
+
+          // Add all dates from last date to target date
+          while (currentDate <= targetDateParsed) {
+            newDates.push({
+              date: format(currentDate, 'yyyy-MM-dd'),
+              activity: false,
+              level: selectedLevel,
+            });
+            currentDate = addDays(currentDate, 1);
+          }
+
+          // Mark the target date as active
+          return newDates.map((item) =>
+            item.date === dateToMark
+              ? { ...item, activity: true, level: selectedLevel }
+              : item
+          );
+        }
+      }
+
+      // Date exists, just mark it active
+      return prev.map((item) =>
+        item.date === dateToMark
+          ? { ...item, activity: true, level: selectedLevel }
+          : item
+      );
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,9 +102,15 @@ export default function Grid() {
     setThemeName(newTheme);
   };
 
+  const handleDifficultyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value as DifficultyLevel;
+    setDifficultyLevel(value);
+    localStorage.setItem('difficultyOption', value);
+  };
+
   const elements = dateRange.map((item, i) => {
     const className = item.activity
-      ? `${themeName || 'default'}-box-item-lvl-${item.level ?? 0}`
+      ? `${themeName || 'default'}-box-item-lvl-${item.level ?? 'easy'}`
       : 'box-item';
 
     return <div key={i} className={className}></div>;
@@ -94,6 +152,38 @@ export default function Grid() {
         <button type="submit" className="submit-form">
           Log Activity
         </button>
+        <Text as="div" size="5">
+          Easy
+        </Text>
+
+        <input
+          type="radio"
+          name="easy"
+          onChange={handleDifficultyChange}
+          value="easy"
+          checked={difficultyLevel === 'easy'}
+        />
+
+        <Text as="div" size="5">
+          Medium
+        </Text>
+        <input
+          type="radio"
+          name="medium"
+          onChange={handleDifficultyChange}
+          value="medium"
+          checked={difficultyLevel === 'medium'}
+        />
+        <Text as="div" size="5">
+          Hard
+        </Text>
+        <input
+          type="radio"
+          name="default"
+          onChange={handleDifficultyChange}
+          value="hard"
+          checked={difficultyLevel === 'hard'}
+        />
       </form>
     </>
   );
