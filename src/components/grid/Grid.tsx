@@ -98,25 +98,18 @@ export default function Grid() {
     setDifficultyLevel(value);
   };
 
+  const today = format(new Date(), 'yyyy-MM-dd');
+
   const elements = dateRange.map((item, i) => {
+    const effectiveLevel =
+      item.date === today && item.activity ? difficultyLevel : item.level;
+
     const className = item.activity
-      ? `${themeName || 'default'}-box-item-lvl-${item.level ?? 'easy'}`
+      ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
+
     return <div key={i} className={className}></div>;
   });
-
-  // const today = format(new Date(), 'yyyy-MM-dd');
-  //
-  // const elements = dateRange.map((item, i) => {
-  //   const effectiveLevel =
-  //     item.date === today && item.activity ? difficultyLevel : item.level;
-  //
-  //   const className = item.activity
-  //     ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
-  //     : 'box-item';
-  //
-  //   return <div key={i} className={className}></div>;
-  // });
 
   return (
     <>
