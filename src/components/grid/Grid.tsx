@@ -24,20 +24,19 @@ export default function Grid() {
     return saved || 'default';
   });
 
-  const [checkBoxChecked, setCheckBoxChecked] = useState(() => {
-    const saved = localStorage.getItem('checkedOption');
-    return saved || 'default';
-  });
-
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>(
-    () =>
-      (localStorage.getItem('difficultyOption') as DifficultyLevel) ?? 'easy'
+    () => {
+      const saved =
+        (localStorage.getItem('difficultyOption') as DifficultyLevel) ?? 'easy';
+      return saved;
+    }
   );
 
   useEffect(() => {
     localStorage.setItem('dateRange', JSON.stringify(dateRange));
-    localStorage.setItem('checkedOption', checkBoxChecked);
-  }, [dateRange, checkBoxChecked]);
+    localStorage.setItem('checkedOption', themeName);
+    localStorage.setItem('difficultyOption', difficultyLevel);
+  }, [dateRange, themeName, difficultyLevel]);
 
   //Simplify this process a bit more
   const handleSubmit = (
@@ -52,10 +51,6 @@ export default function Grid() {
     setDateRange((prev) => {
       // Check if date exists in range
       const dateExists = prev.some((item) => item.date === dateToMark);
-      //
-      // if (dateExists) {
-      //   return prev;
-      // }
 
       if (!dateExists) {
         // Add the missing date(s) to the array
@@ -80,37 +75,37 @@ export default function Grid() {
 
           // Mark the target date as active
           return newDates.map((item) =>
-            item.date === dateToMark
-              ? { ...item, activity: true, level: selectedLevel }
-              : item
+            item.date === dateToMark ? { ...item, activity: true } : item
           );
         }
       }
 
       // Date exists, just mark it active
       return prev.map((item) =>
-        item.date === dateToMark
-          ? { ...item, activity: true, level: selectedLevel }
-          : item
+        item.date === dateToMark ? { ...item, activity: true } : item
       );
     });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTheme = e.target.name;
-    setCheckBoxChecked(newTheme);
     setThemeName(newTheme);
   };
 
   const handleDifficultyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value as DifficultyLevel;
+    console.log(value);
     setDifficultyLevel(value);
-    localStorage.setItem('difficultyOption', value);
   };
 
+  const today = format(new Date(), 'yyyy-MM-dd');
+
   const elements = dateRange.map((item, i) => {
+    const effectiveLevel =
+      item.date === today && item.activity ? difficultyLevel : item.level;
+
     const className = item.activity
-      ? `${themeName || 'default'}-box-item-lvl-${item.level ?? 'easy'}`
+      ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
 
     return <div key={i} className={className}></div>;
@@ -124,7 +119,7 @@ export default function Grid() {
           <input
             type="radio"
             name="default"
-            checked={checkBoxChecked === 'default'}
+            checked={themeName === 'default'}
             onChange={handleChange}
           />
 
@@ -132,7 +127,7 @@ export default function Grid() {
           <input
             type="radio"
             name="powerPink"
-            checked={checkBoxChecked === 'powerPink'}
+            checked={themeName === 'powerPink'}
             onChange={handleChange}
           />
 
@@ -140,7 +135,7 @@ export default function Grid() {
           <input
             type="radio"
             name="growingGreen"
-            checked={checkBoxChecked === 'growingGreen'}
+            checked={themeName === 'growingGreen'}
             onChange={handleChange}
           />
         </div>
@@ -158,7 +153,7 @@ export default function Grid() {
 
         <input
           type="radio"
-          name="easy"
+          name="difficulty"
           onChange={handleDifficultyChange}
           value="easy"
           checked={difficultyLevel === 'easy'}
@@ -169,7 +164,7 @@ export default function Grid() {
         </Text>
         <input
           type="radio"
-          name="medium"
+          name="difficulty"
           onChange={handleDifficultyChange}
           value="medium"
           checked={difficultyLevel === 'medium'}
@@ -179,7 +174,7 @@ export default function Grid() {
         </Text>
         <input
           type="radio"
-          name="default"
+          name="difficulty"
           onChange={handleDifficultyChange}
           value="hard"
           checked={difficultyLevel === 'hard'}
