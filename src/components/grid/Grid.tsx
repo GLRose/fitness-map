@@ -46,6 +46,9 @@ export default function Grid() {
   ) => {
     event.preventDefault();
     const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
+    //For testing days ahead...
+    // const dateToMark =
+    //   targetDate || format(addDays(new Date(), 6), 'yyyy-MM-dd');
     const selectedLevel = level ?? difficultyLevel;
 
     setDateRange((prev) => {
@@ -68,21 +71,25 @@ export default function Grid() {
             newDates.push({
               date: format(currentDate, 'yyyy-MM-dd'),
               activity: false,
-              level: selectedLevel,
+              level: 'easy',
             });
             currentDate = addDays(currentDate, 1);
           }
 
           // Mark the target date as active
           return newDates.map((item) =>
-            item.date === dateToMark ? { ...item, activity: true } : item
+            item.date === dateToMark
+              ? { ...item, activity: true, level: selectedLevel }
+              : item
           );
         }
       }
 
       // Date exists, just mark it active
       return prev.map((item) =>
-        item.date === dateToMark ? { ...item, activity: true } : item
+        item.date === dateToMark
+          ? { ...item, activity: true, level: selectedLevel }
+          : item
       );
     });
   };
