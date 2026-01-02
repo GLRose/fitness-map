@@ -16,6 +16,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .default-box-item-lvl-easy {
@@ -24,6 +25,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .default-box-item-lvl-medium {
@@ -32,6 +34,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .default-box-item-lvl-hard {
@@ -40,6 +43,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 /* Put theme definitions here */
@@ -51,6 +55,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .powerPink-box-item-lvl-medium {
@@ -59,6 +64,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .powerPink-box-item-lvl-hard {
@@ -67,6 +73,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 /*Green*/
@@ -76,6 +83,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .growingGreen-box-item-lvl-medium {
@@ -84,6 +92,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 .growingGreen-box-item-lvl-hard {
@@ -92,6 +101,7 @@
   width: 30px;
   border-style: solid;
   border-color: white;
+  border-width: 2px;
 }
 
 /* start of form */
