@@ -55,40 +55,49 @@ export default function Links() {
 
   return (
     <>
-      <form onSubmit={onSubmit}>
-        <div className="link-inputs">
-          <input
-            className="video-links"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Paste video url"
-          />
-          <button type="submit" className="submit-video-link">
-            Add
-          </button>
-        </div>
-      </form>
-
-      <ul
+      <div
         style={{
           display: 'flex',
-          flexWrap: 'wrap',
-          gap: '16px',
-          listStyle: 'none',
-          padding: 0,
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '32px',
+          paddingTop: '32px',
         }}
       >
-        {links.map((link, index) => (
-          <LinksCard
-            key={index}
-            data={link}
-            onAdd={(title, activityDescription) =>
-              updateInputs(index, title, activityDescription)
-            }
-            onDelete={() => handleDelete(index)}
-          />
-        ))}
-      </ul>
+        <ul
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+            listStyle: 'none',
+          }}
+        >
+          {links.map((link, index) => (
+            <LinksCard
+              key={index}
+              data={link}
+              onAdd={(title, activityDescription) =>
+                updateInputs(index, title, activityDescription)
+              }
+              onDelete={() => handleDelete(index)}
+            />
+          ))}
+        </ul>
+
+        <form onSubmit={onSubmit}>
+          <div className="link-inputs">
+            <input
+              className="video-links"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="Paste video url"
+            />
+            <button type="submit" className="submit-video-link">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

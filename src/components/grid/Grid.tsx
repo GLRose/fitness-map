@@ -1,7 +1,7 @@
 import Boxes from '@/components/boxes/Boxes';
 import { setDate } from '@/utils/dateRange.ts';
 import { useState, useEffect } from 'react';
-import { format, addDays, parse } from 'date-fns';
+import { format, addDays, parse, getDay } from 'date-fns';
 import { Text } from '@radix-ui/themes';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
@@ -115,77 +115,93 @@ export default function Grid() {
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
 
-    return <div key={i} className={className}></div>;
+const dayLetter: string = 'SMTWTFS'[new Date(item.date).getDay()];
+
+    return <div key={i} className={className}>{dayLetter}</div>;
   });
 
   return (
     <>
       <div className="theme-names-container">
         <div className="theme-names">
-          <p>Default</p>
-          <input
-            type="radio"
-            name="default"
-            checked={themeName === 'default'}
-            onChange={handleChange}
-          />
+          <div className="theme-names-shadow">
+            <h2>Theme:&nbsp;</h2>
 
-          <p> Power Pink </p>
-          <input
-            type="radio"
-            name="powerPink"
-            checked={themeName === 'powerPink'}
-            onChange={handleChange}
-          />
+            <Text as="div" size="5">
+              Default
+            </Text>
+            <input
+              type="radio"
+              name="default"
+              checked={themeName === 'default'}
+              onChange={handleChange}
+            />
 
-          <p> Growing Green </p>
-          <input
-            type="radio"
-            name="growingGreen"
-            checked={themeName === 'growingGreen'}
-            onChange={handleChange}
-          />
+            <Text as="div" size="5">
+              Pink
+            </Text>
+            <input
+              type="radio"
+              name="powerPink"
+              checked={themeName === 'powerPink'}
+              onChange={handleChange}
+            />
+
+            <Text as="div" size="5">
+              Green
+            </Text>
+            <input
+              type="radio"
+              name="growingGreen"
+              checked={themeName === 'growingGreen'}
+              onChange={handleChange}
+            />
+            <div>&nbsp;</div>
+            <h2>Difficulty:&nbsp;</h2>
+
+            <Text as="div" size="5">
+              Easy
+            </Text>
+
+            <input
+              type="radio"
+              name="difficulty"
+              onChange={handleDifficultyChange}
+              value="easy"
+              checked={difficultyLevel === 'easy'}
+            />
+
+            <Text as="div" size="5">
+              Medium
+            </Text>
+            <input
+              type="radio"
+              name="difficulty"
+              onChange={handleDifficultyChange}
+              value="medium"
+              checked={difficultyLevel === 'medium'}
+            />
+            <Text as="div" size="5">
+              Hard
+            </Text>
+            <input
+              type="radio"
+              name="difficulty"
+              onChange={handleDifficultyChange}
+              value="hard"
+              checked={difficultyLevel === 'hard'}
+            />
+          </div>
         </div>
       </div>
-
       <Boxes elements={elements} />
 
       <form className="form" onSubmit={handleSubmit}>
-        <button type="submit" className="submit-form">
-          Log Activity
-        </button>
-        <Text as="div" size="5">
-          Easy
-        </Text>
-
-        <input
-          type="radio"
-          name="difficulty"
-          onChange={handleDifficultyChange}
-          value="easy"
-          checked={difficultyLevel === 'easy'}
-        />
-
-        <Text as="div" size="5">
-          Medium
-        </Text>
-        <input
-          type="radio"
-          name="difficulty"
-          onChange={handleDifficultyChange}
-          value="medium"
-          checked={difficultyLevel === 'medium'}
-        />
-        <Text as="div" size="5">
-          Hard
-        </Text>
-        <input
-          type="radio"
-          name="difficulty"
-          onChange={handleDifficultyChange}
-          value="hard"
-          checked={difficultyLevel === 'hard'}
-        />
+        <div className="log-activity-submit">
+          <button type="submit" className="submit-form">
+            Log Activity
+          </button>
+        </div>
       </form>
     </>
   );

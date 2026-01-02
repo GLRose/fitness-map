@@ -11,7 +11,7 @@
 }
 
 .box-item {
-  background-color: #4a4a4a;
+  background-color: #ace6d5;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -153,7 +153,7 @@
   font-size: 30px;
   justify-content: center;
   align-items: center;
-  background-color: #3c635f;
+  background-color: #3eb489;
   color: white;
   box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
   transition: all 0.2s ease;
@@ -163,10 +163,19 @@
 
 /* theme names */
 .theme-names-container {
-  /* background-color: white; */
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+}
+
+.theme-names-shadow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #98fbcb;
+  border-style: rounded;
+  border-radius: 8px;
+  padding: 5px;
 }
 
 .theme-header {
@@ -174,11 +183,30 @@
 }
 
 .theme-names {
-  justify-content: flex-end;
+  justify-content: center;
   display: flex;
   flex-direction: row;
   font-family: 'Outfit';
   gap: 5px;
+}
+
+.submit-video-link {
+  display: flex;
+  width: 200px;
+  height: 80px;
+  border-style: rounded;
+  border-radius: 8px;
+  border-color: white;
+  font-family: 'Outfit';
+  font-size: 15px;
+  justify-content: center;
+  align-items: center;
+  background-color: #3eb489;
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: 20px;
 }
 
 body {

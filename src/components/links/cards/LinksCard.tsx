@@ -55,7 +55,7 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
           onClick={onDelete}
           style={{ position: 'absolute', top: '12px', right: '12px' }}
         >
-          <TrashIcon />
+          <TrashIcon cursor="pointer" />
         </IconButton>
 
         <Flex gap="3" align="center">
@@ -75,7 +75,6 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
                   size="2"
                   placeholder="Title your workout"
                   onChange={(e) => setInputValue(e.target.value)}
-                  autoFocus
                 />
 
                 <TextField.Root
@@ -83,7 +82,6 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
                   size="2"
                   placeholder="Activity Description"
                   onChange={(e) => setActivityDescription(e.target.value)}
-                  autoFocus
                 />
 
                 <Flex gap="2">
