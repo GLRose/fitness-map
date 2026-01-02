@@ -1,7 +1,7 @@
 import Boxes from '@/components/boxes/Boxes';
 import { setDate } from '@/utils/dateRange.ts';
 import { useState, useEffect } from 'react';
-import { format, addDays, parse, getDay } from 'date-fns';
+import { format, addDays, parse } from 'date-fns';
 import { Text } from '@radix-ui/themes';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
@@ -115,9 +115,13 @@ export default function Grid() {
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
 
-const dayLetter: string = 'SMTWTFS'[new Date(item.date).getDay()];
+    const dayLetter: string = 'SMTWTFS'[new Date(item.date).getDay()];
 
-    return <div key={i} className={className}>{dayLetter}</div>;
+    return (
+      <div key={i} className={className}>
+        {dayLetter}
+      </div>
+    );
   });
 
   return (
@@ -157,40 +161,6 @@ const dayLetter: string = 'SMTWTFS'[new Date(item.date).getDay()];
               onChange={handleChange}
             />
             <div>&nbsp;</div>
-            <h2>Difficulty:&nbsp;</h2>
-
-            <Text as="div" size="5">
-              Easy
-            </Text>
-
-            <input
-              type="radio"
-              name="difficulty"
-              onChange={handleDifficultyChange}
-              value="easy"
-              checked={difficultyLevel === 'easy'}
-            />
-
-            <Text as="div" size="5">
-              Medium
-            </Text>
-            <input
-              type="radio"
-              name="difficulty"
-              onChange={handleDifficultyChange}
-              value="medium"
-              checked={difficultyLevel === 'medium'}
-            />
-            <Text as="div" size="5">
-              Hard
-            </Text>
-            <input
-              type="radio"
-              name="difficulty"
-              onChange={handleDifficultyChange}
-              value="hard"
-              checked={difficultyLevel === 'hard'}
-            />
           </div>
         </div>
       </div>
@@ -202,6 +172,40 @@ const dayLetter: string = 'SMTWTFS'[new Date(item.date).getDay()];
             Log Activity
           </button>
         </div>
+        <h2>Difficulty:&nbsp;</h2>
+
+        <Text as="div" size="5">
+          Easy
+        </Text>
+
+        <input
+          type="radio"
+          name="difficulty"
+          onChange={handleDifficultyChange}
+          value="easy"
+          checked={difficultyLevel === 'easy'}
+        />
+
+        <Text as="div" size="5">
+          Medium
+        </Text>
+        <input
+          type="radio"
+          name="difficulty"
+          onChange={handleDifficultyChange}
+          value="medium"
+          checked={difficultyLevel === 'medium'}
+        />
+        <Text as="div" size="5">
+          Hard
+        </Text>
+        <input
+          type="radio"
+          name="difficulty"
+          onChange={handleDifficultyChange}
+          value="hard"
+          checked={difficultyLevel === 'hard'}
+        />
       </form>
     </>
   );

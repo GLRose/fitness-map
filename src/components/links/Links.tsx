@@ -60,15 +60,15 @@ export default function Links() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '32px',
-          paddingTop: '32px',
+          gap: '10px',
+          paddingBottom: '10px',
         }}
       >
         <ul
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '10px',
+            gap: '15px',
             listStyle: 'none',
           }}
         >
