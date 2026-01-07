@@ -38,7 +38,6 @@ export default function Grid() {
     localStorage.setItem('difficultyOption', difficultyLevel);
   }, [dateRange, themeName, difficultyLevel]);
 
-  //Simplify this process a bit more
   const handleSubmit = (
     event: React.FormEvent,
     targetDate?: string,
