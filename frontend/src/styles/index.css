@@ -1,0 +1,216 @@
+/* start of grid */
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  height: 100px;
+  width: 50px;
+  grid-auto-flow: column;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.box-item {
+  background-color: #ace6d5;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.default-box-item-lvl-easy {
+  background-color: #2d68c4;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.default-box-item-lvl-medium {
+  background-color: #1a4a96;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.default-box-item-lvl-hard {
+  background-color: #143a78;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+/* Put theme definitions here */
+
+/*Pink*/
+.powerPink-box-item-lvl-easy {
+  background-color: lightpink;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.powerPink-box-item-lvl-medium {
+  background-color: hotpink;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.powerPink-box-item-lvl-hard {
+  background-color: deeppink;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+/*Green*/
+.growingGreen-box-item-lvl-easy {
+  background-color: #5ce65c;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.growingGreen-box-item-lvl-medium {
+  background-color: #008000;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.growingGreen-box-item-lvl-hard {
+  background-color: #0f4d0f;
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+/* start of form */
+.form {
+  display: flex;
+  width: 300px;
+  height: 300px;
+  /* add back if you want inputs */
+  /* background-color: #0A1A2F; */
+  margin: 100px auto;
+  border-style: rounded;
+  border-color: white;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-inputs {
+  display: flex;
+  gap: 50px;
+  width: 200px;
+  align-items: center;
+  flex-direction: column;
+  border-style: rounded;
+  border-color: white;
+  border-radius: 200px;
+}
+
+.form-input-fields {
+  display: flex;
+  gap: 50px;
+  width: 200px;
+  height: 30px;
+  align-items: center;
+  flex-direction: column;
+  border-style: rounded;
+  border-color: white;
+  border-radius: 200px;
+}
+
+.submit-form {
+  display: flex;
+  width: 200px;
+  height: 80px;
+  border-style: rounded;
+  border-radius: 8px;
+  border-color: white;
+  font-family: 'Outfit';
+  font-size: 30px;
+  justify-content: center;
+  align-items: center;
+  background-color: #3eb489;
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: 20px;
+}
+
+/* theme names */
+.theme-names-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.theme-names-shadow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #98fbcb;
+  border-style: rounded;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.theme-header {
+  font-family: 'Outfit';
+}
+
+.theme-names {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  font-family: 'Outfit';
+  gap: 5px;
+}
+
+.submit-video-link {
+  display: flex;
+  width: 200px;
+  height: 80px;
+  border-style: rounded;
+  border-radius: 8px;
+  border-color: white;
+  font-family: 'Outfit';
+  font-size: 15px;
+  justify-content: center;
+  align-items: center;
+  background-color: #3eb489;
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: 20px;
+}
+
+body {
+  /* background-color: lightblue; */
+  margin: 0;
+  padding: 0;
+}

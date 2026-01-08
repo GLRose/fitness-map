@@ -1,0 +1,18 @@
+.link-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 300px;
+  gap: 3px;
+}
+
+.submit-video-link {
+  width: 100px;
+  height: 40px;
+}
+
+.video-links {
+  width: 150px;
+  height: 40px;
+}
