@@ -9,7 +9,6 @@ export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 export interface DateItem {
   date: string;
   activity: boolean;
-  level: DifficultyLevel;
   theme?: string;
 }
 
@@ -38,17 +37,14 @@ export default function Grid() {
     localStorage.setItem('difficultyOption', difficultyLevel);
   }, [dateRange, themeName, difficultyLevel]);
 
-  const handleSubmit = (
-    event: React.FormEvent,
-    targetDate?: string,
-    level?: DifficultyLevel
-  ) => {
+  const handleSubmit = (event: React.FormEvent, targetDate?: string) => {
     event.preventDefault();
     const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
     //For testing days ahead...
     // const dateToMark =
-    //   targetDate || format(addDays(new Date(), 6), 'yyyy-MM-dd');
-    const selectedLevel = level ?? difficultyLevel;
+    //   targetDate || format(addDays(new Date(), 3), 'yyyy-MM-dd');
+    // const selectedLevel = difficultyLevel;
+    // console.log('selected level', selectedLevel);
 
     setDateRange((prev) => {
       // Check if date exists in range
@@ -70,25 +66,20 @@ export default function Grid() {
             newDates.push({
               date: format(currentDate, 'yyyy-MM-dd'),
               activity: false,
-              level: 'easy',
             });
             currentDate = addDays(currentDate, 1);
           }
 
           // Mark the target date as active
           return newDates.map((item) =>
-            item.date === dateToMark
-              ? { ...item, activity: true, level: selectedLevel }
-              : item
+            item.date === dateToMark ? { ...item, activity: true } : item
           );
         }
       }
 
       // Date exists, just mark it active
       return prev.map((item) =>
-        item.date === dateToMark
-          ? { ...item, activity: true, level: selectedLevel }
-          : item
+        item.date === dateToMark ? { ...item, activity: true } : item
       );
     });
   };
@@ -100,7 +91,7 @@ export default function Grid() {
 
   const handleDifficultyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value as DifficultyLevel;
-    console.log(value);
+    console.log('Difficulty Level', value);
     setDifficultyLevel(value);
   };
 
@@ -108,8 +99,7 @@ export default function Grid() {
 
   const elements = dateRange.map((item, i) => {
     const effectiveLevel =
-      item.date === today && item.activity ? difficultyLevel : item.level;
-
+      item.date === today && item.activity ? difficultyLevel : 'easy';
     const className = item.activity
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';

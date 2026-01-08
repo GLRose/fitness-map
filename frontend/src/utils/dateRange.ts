@@ -10,7 +10,6 @@ import {
 export interface DateType {
   date: string;
   activity: boolean;
-  level: number;
 }
 
 type DateTypeArray = DateType[];
@@ -28,7 +27,7 @@ export function setDate() {
 
   while (dayToShow <= gridEnd) {
     const dateKey = format(dayToShow, 'yyyy-MM-dd');
-    dateRange.push({ date: dateKey, activity: false, level: 0 });
+    dateRange.push({ date: dateKey, activity: false });
 
     dayToShow = addDays(dayToShow, 1);
   }
