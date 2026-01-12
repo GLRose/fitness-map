@@ -1,8 +1,9 @@
 import Boxes from '@/components/boxes/Boxes';
-import { setDate } from '@/utils/dateRange.ts';
-import { useState, useEffect } from 'react';
 import { format, addDays, parse } from 'date-fns';
+// import { getActivities } from '@/utils/getActivities';
+import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
+import { useState, useEffect } from 'react';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
@@ -10,6 +11,7 @@ export interface DateItem {
   date: string;
   activity: boolean;
   theme?: string;
+  level?: string;
 }
 
 export default function Grid() {
@@ -66,20 +68,25 @@ export default function Grid() {
             newDates.push({
               date: format(currentDate, 'yyyy-MM-dd'),
               activity: false,
+              // level: difficultyLevel,
             });
             currentDate = addDays(currentDate, 1);
           }
 
           // Mark the target date as active
           return newDates.map((item) =>
-            item.date === dateToMark ? { ...item, activity: true } : item
+            item.date === dateToMark
+              ? { ...item, activity: true, level: difficultyLevel }
+              : item
           );
         }
       }
 
       // Date exists, just mark it active
       return prev.map((item) =>
-        item.date === dateToMark ? { ...item, activity: true } : item
+        item.date === dateToMark
+          ? { ...item, activity: true, level: difficultyLevel }
+          : item
       );
     });
   };
