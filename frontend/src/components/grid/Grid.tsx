@@ -102,11 +102,7 @@ export default function Grid() {
     setDifficultyLevel(value);
   };
 
-  // const today = format(new Date(), 'yyyy-MM-dd');
-
   const elements = dateRange.map((item, i) => {
-    // const effectiveLevel =
-    // item.date === today && item.activity ? item.level : 'easy';
     const effectiveLevel = item.level || 'easy';
     const className = item.activity
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
