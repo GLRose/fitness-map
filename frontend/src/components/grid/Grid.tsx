@@ -106,7 +106,7 @@ export default function Grid() {
 
   const elements = dateRange.map((item, i) => {
     const effectiveLevel =
-      item.date === today && item.activity ? difficultyLevel : 'easy';
+      item.date === today && item.activity ? item.level : 'easy';
     const className = item.activity
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
