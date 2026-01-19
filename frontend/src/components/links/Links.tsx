@@ -70,6 +70,7 @@ export default function Links() {
             flexWrap: 'wrap',
             gap: '15px',
             listStyle: 'none',
+            justifyContent: 'center',
           }}
         >
           {links.map((link, index) => (
