@@ -108,11 +108,23 @@ export default function Grid() {
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
 
-    const dayLetter: string = 'SMTWTFS'[new Date(item.date).getDay()];
+    const dayLetter: string = [
+      'Sun',
+      'Mon',
+      'Tues',
+      'Wed',
+      'Thurs',
+      'Fri',
+      'Sat',
+    ][new Date(item.date).getDay()];
 
     return (
       <div key={i} className={className}>
-        {dayLetter}
+        {i < 7 && (
+          <Text weight="bold" size="3">
+            {dayLetter}
+          </Text>
+        )}
       </div>
     );
   });
