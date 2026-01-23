@@ -3,7 +3,7 @@ import { format, addDays, parse } from 'date-fns';
 import { getActivities } from '@/utils/getActivities';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
@@ -13,12 +13,35 @@ export interface DateItem {
   theme?: string;
   level?: string;
 }
-
+const activityData = await getActivities();
 export default function Grid() {
-  //Set the date range for the grid
   const [dateRange, setDateRange] = useState<DateItem[]>(() => {
+    // Generate full year of dates
+    const baseDates = setDate();
+
     const saved = localStorage.getItem('dateRange');
-    return saved ? JSON.parse(saved) : setDate();
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Failed to parse localStorage data:', e);
+      }
+    }
+
+    // Then check activityData
+    if (!activityData || activityData.length === 0) {
+      return baseDates;
+    }
+
+    const activities = activityData;
+
+    // Merge activity data onto the base dates
+    return baseDates.map((dateItem) => {
+      const savedActivity = activities.find(
+        (activity: DateItem) => activity.date === dateItem.date
+      );
+      return savedActivity ? { ...dateItem, ...savedActivity } : dateItem;
+    });
   });
 
   const [themeName, setThemeName] = useState(() => {
@@ -34,31 +57,15 @@ export default function Grid() {
     }
   );
 
-  //Use base db table as a structure instead of setting existing
-  const mergeDateRange = useCallback(async () => {
-    const dbObj = await getActivities();
-    console.log('DB data:', dbObj);
-    const dbMap = new Map(dbObj.map((item) => [item.date, item]));
-
-    const merged = dateRange.map((existing) => {
-      const dbMatch = dbMap.get(existing.date);
-      return dbMatch ? { ...existing, ...dbMatch } : existing;
-    });
-
-    console.log('merged:', merged);
-    return merged;
-  }, [dateRange]); // Add dateRange as dependency
-
   useEffect(() => {
     const updateData = async () => {
-      const merged = await mergeDateRange(); // Await the result
-      localStorage.setItem('dateRange', JSON.stringify(merged));
+      localStorage.setItem('dateRange', JSON.stringify(dateRange));
       localStorage.setItem('checkedOption', themeName);
       localStorage.setItem('difficultyOption', difficultyLevel);
     };
 
     updateData();
-  }, [dateRange, themeName, difficultyLevel, mergeDateRange]);
+  }, [dateRange, themeName, difficultyLevel]);
   //end of weirdness
 
   const handleSubmit = (event: React.FormEvent, targetDate?: string) => {
