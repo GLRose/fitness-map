@@ -194,7 +194,7 @@ export default function Grid() {
             Log Activity
           </button>
         </div>
-        <h2>Difficulty:&nbsp;</h2>
+        <h2 className="activity-difficulty-text">Difficulty:&nbsp;</h2>
 
         <Text as="div" size="5">
           Easy

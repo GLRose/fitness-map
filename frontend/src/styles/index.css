@@ -11,7 +11,7 @@
 }
 
 .box-item {
-  background-color: #ace6d5;
+  background-color: #1e1e1e;
   height: 30px;
   width: 30px;
   border-style: solid;
@@ -117,6 +117,7 @@
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .form-inputs {
@@ -153,8 +154,8 @@
   font-size: 30px;
   justify-content: center;
   align-items: center;
-  background-color: #3eb489;
-  color: white;
+  background-color: #00f5ff;
+  color: #000000;
   box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -172,7 +173,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: #98fbcb;
+  background-color: #00f5ff;
   border-style: rounded;
   border-radius: 8px;
   padding: 5px;
@@ -201,8 +202,8 @@
   font-size: 15px;
   justify-content: center;
   align-items: center;
-  background-color: #3eb489;
-  color: white;
+  background-color: #00f5ff;
+  color: #000000;
   box-shadow: 0 4px 16px rgba(255, 0, 110, 0.3);
   transition: all 0.2s ease;
   cursor: pointer;

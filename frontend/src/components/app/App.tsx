@@ -9,7 +9,7 @@ import '@radix-ui/themes/styles.css';
 function App() {
   return (
     <>
-      <Theme style={{ backgroundColor: '#BFFFED' }}>
+      <Theme style={{ backgroundColor: '#0B0E14' }}>
         <Grid />
         <Links />
       </Theme>

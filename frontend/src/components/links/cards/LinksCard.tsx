@@ -51,7 +51,7 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
       <Card size="5" style={{ height: '500px', position: 'relative' }}>
         <IconButton
           variant="solid"
-          color="tomato"
+          color="crimson"
           onClick={onDelete}
           style={{ position: 'absolute', top: '12px', right: '12px' }}
         >
