@@ -121,7 +121,7 @@ export default function Grid() {
     return (
       <div key={i} className={className}>
         {i < 7 && (
-          <Text weight="bold" size="3">
+          <Text weight="bold" size="3" color="green">
             {dayLetter}
           </Text>
         )}
