@@ -1,6 +1,7 @@
 import Boxes from '@/components/boxes/Boxes';
 import { format, addDays, parse } from 'date-fns';
 // import { getActivities } from '@/utils/getActivities';
+import { getSB } from '@/utils/getActivitiesFromSb';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
@@ -15,6 +16,8 @@ export interface DateItem {
 }
 
 export default function Grid() {
+
+  getSB();
   const [dateRange, setDateRange] = useState<DateItem[]>(() => {
     const saved = localStorage.getItem('dateRange');
     return saved ? JSON.parse(saved) : setDate();
