@@ -117,18 +117,18 @@ export default function Grid() {
 
     const dayLetter: string = [
       'Sun',
-      'Mon',
-      'Tues',
-      'Wed',
-      'Thurs',
-      'Fri',
+      'M',
+      'T',
+      'W',
+      'Th',
+      'F',
       'Sat',
     ][new Date(item.date).getDay()];
 
     return (
       <div key={i} className={className}>
         {i < 7 && (
-          <Text weight="bold" size="3" color="green">
+          <Text weight="bold" size="3" color="cyan">
             {dayLetter}
           </Text>
         )}
@@ -220,7 +220,7 @@ export default function Grid() {
         <div>
           <Text
             as="p"
-            style={{ color: 'indigo', paddingLeft: '10px' }}
+            style={{ color: 'pink', paddingLeft: '10px' }}
             highContrast
             wrap="nowrap"
             weight="bold"
