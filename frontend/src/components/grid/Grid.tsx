@@ -1,7 +1,7 @@
 import Boxes from '@/components/boxes/Boxes';
 import { format, addDays, parse } from 'date-fns';
 // import { getActivities } from '@/utils/getActivities';
-import { getSB } from '@/utils/getActivitiesFromSb';
+// import { getSB } from '@/utils/getActivitiesFromSb';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
@@ -16,8 +16,7 @@ export interface DateItem {
 }
 
 export default function Grid() {
-
-  getSB();
+  // getSB();
   const [dateRange, setDateRange] = useState<DateItem[]>(() => {
     const saved = localStorage.getItem('dateRange');
     return saved ? JSON.parse(saved) : setDate();
@@ -105,6 +104,11 @@ export default function Grid() {
     setDifficultyLevel(value);
   };
 
+  const activeDaysCount = dateRange.reduce(
+    (acc, item) => acc + (item.activity ? 1 : 0),
+    0
+  );
+
   const elements = dateRange.map((item, i) => {
     const effectiveLevel = item.level || 'easy';
     const className = item.activity
@@ -173,7 +177,6 @@ export default function Grid() {
         </div>
       </div>
       <Boxes elements={elements} />
-
       <form className="form" onSubmit={handleSubmit}>
         <div className="log-activity-submit">
           <button type="submit" className="submit-form">
@@ -214,6 +217,18 @@ export default function Grid() {
           value="hard"
           checked={difficultyLevel === 'hard'}
         />
+        <div>
+          <Text
+            as="p"
+            style={{ color: 'indigo', paddingLeft: '10px' }}
+            highContrast
+            wrap="nowrap"
+            weight="bold"
+            size="5"
+          >
+            DAYS WORKED OUT: {activeDaysCount}
+          </Text>
+        </div>
       </form>
     </>
   );
