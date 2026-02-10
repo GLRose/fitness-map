@@ -2,6 +2,7 @@ import Boxes from '@/components/boxes/Boxes';
 import { format, addDays, parse } from 'date-fns';
 // import { getActivities } from '@/utils/getActivities';
 // import { getSB } from '@/utils/getActivitiesFromSb';
+import Logout from '@/components/grid/Logout';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
@@ -115,20 +116,14 @@ export default function Grid() {
       ? `${themeName || 'default'}-box-item-lvl-${effectiveLevel}`
       : 'box-item';
 
-    const dayLetter: string = [
-      'Sun',
-      'M',
-      'T',
-      'W',
-      'Th',
-      'F',
-      'Sat',
-    ][new Date(item.date).getDay()];
+    const dayLetter: string = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][
+      new Date(item.date).getDay()
+    ];
 
     return (
       <div key={i} className={className}>
         {i < 7 && (
-          <Text weight="bold" size="3" color="cyan">
+          <Text weight="bold" size="3" color="ruby">
             {dayLetter}
           </Text>
         )}
@@ -138,6 +133,9 @@ export default function Grid() {
 
   return (
     <>
+      <div>
+        <Logout />
+      </div>
       <div className="theme-names-container">
         <div className="theme-names">
           <div className="theme-names-shadow">
@@ -176,6 +174,7 @@ export default function Grid() {
           </div>
         </div>
       </div>
+
       <Boxes elements={elements} />
       <form className="form" onSubmit={handleSubmit}>
         <div className="log-activity-submit">

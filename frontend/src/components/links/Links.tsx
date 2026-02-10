@@ -88,6 +88,7 @@ export default function Links() {
         <form onSubmit={onSubmit}>
           <div className="link-inputs">
             <input
+              style={{ backgroundColor: '#ffff', color: 'black' }}
               className="video-links"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
