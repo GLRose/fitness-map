@@ -29,9 +29,9 @@ export function ForgotPasswordForm({
     setError(null);
 
     try {
-      // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
+      // Reconfigure redirect when switched to an actual domain. Add to supabase redirects.
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'http://localhost:3000/update-password',
+        redirectTo: 'http://localhost:5173/fitness-map/update-password',
       });
       if (error) throw error;
       setSuccess(true);
@@ -74,7 +74,7 @@ export function ForgotPasswordForm({
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="email@example.com"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

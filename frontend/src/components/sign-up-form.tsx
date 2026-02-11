@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -33,6 +33,9 @@ export function SignUpForm({
       return;
     }
     setIsLoading(true);
+    if (password.length < 12) {
+      setError('Invalid Password, password must be at least 12 characters');
+    }
 
     try {
       const { error } = await supabase.auth.signUp({
@@ -79,7 +82,7 @@ export function SignUpForm({
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="email@example.com"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

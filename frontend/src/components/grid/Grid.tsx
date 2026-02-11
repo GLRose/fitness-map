@@ -1,11 +1,14 @@
 import Boxes from '@/components/boxes/Boxes';
 import { format, addDays, parse } from 'date-fns';
+// Manual DB
 // import { getActivities } from '@/utils/getActivities';
-// import { getSB } from '@/utils/getActivitiesFromSb';
+// Supabasae
+// import { getActivities } from '@/utils/getActivitiesFromSb';
 import Logout from '@/components/grid/Logout';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
+import { insertActivityForUser } from '@/utils/getActivitiesFromSb';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
@@ -43,6 +46,7 @@ export default function Grid() {
   }, [dateRange, themeName, difficultyLevel]);
 
   const handleSubmit = (event: React.FormEvent, targetDate?: string) => {
+    insertActivityForUser();
     event.preventDefault();
     const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
     //For testing days ahead...
