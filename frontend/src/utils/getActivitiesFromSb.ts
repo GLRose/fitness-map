@@ -1,13 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
+//Pull activities from supabase psql table
 export async function getActivities() {
   const supabaseUrl = 'https://dxmttvtrjnrumqmmunoc.supabase.co';
   const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
   const supabase = createClient(supabaseUrl, supabaseKey || '');
 
-  const { data: activity, error } = await supabase
-    .from('activity')
-    .select('date');
+  const { data: activity, error } = await supabase.from('activity').select();
 
   if (error) {
     console.error('Error fetching data:', error.message);
@@ -15,36 +14,45 @@ export async function getActivities() {
   }
 
   console.log(`Activity is: ${JSON.stringify(activity)}`);
+
+  return activity;
 }
 
-export async function insertActivityForUser() {
-  const supabaseUrl = 'https://dxmttvtrjnrumqmmunoc.supabase.co';
+interface ActivityRow {
+  activity: boolean;
+  date: string;
+  level: string;
+}
+
+export async function upsertActivityForUser(activityData: ActivityRow) {
+  const supabaseUrl = 'https://dxmttvtrjnrumqmmunoc.supabase.co'; // Use your actual URL
   const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
   const supabase = createClient(supabaseUrl, supabaseKey || '');
 
-  // Get logged-in user
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+  console.log(user);
   if (!user) {
     console.error('No user logged in');
     return;
   }
 
-  // Insert new activity row with user's UUID
   const { data, error } = await supabase
     .from('activity')
-    .insert({
-      date: '2026-02-11',
-      activity: true,
-      uuid: user.id, // Logged-in user's UUID
-    })
+    .insert([
+      {
+        uuid: user.id,
+        activity: activityData.activity,
+        date: activityData.date,
+        level: activityData.level,
+      },
+    ])
     .select();
 
   if (error) {
-    console.error('❌ Error:', error);
+    console.error('❌ Error:', error.message);
   } else {
-    console.log('✅ Inserted activity for user:', data);
+    console.log('✅ Inserted:', data);
   }
 }

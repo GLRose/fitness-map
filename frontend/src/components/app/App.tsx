@@ -1,27 +1,6 @@
-// import Grid from '@/components/grid/Grid.tsx';
-// import Links from '@/components/links/Links.tsx';
-// import { Theme } from '@radix-ui/themes';
-// import '@/styles/index.css';
-// import '@/styles/links.css';
-// import '@radix-ui/themes/styles.css';
-//
-// function App() {
-//   return (
-//     <>
-//       <Theme style={{ backgroundColor: '#044447' }}>
-//         <Grid />
-//         <Links />
-//       </Theme>
-//     </>
-//   );
-// }
-//
-// export default App;
-//
-//
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Grid from '@/components/grid/Grid.tsx';
+import Grid from '@/components/grid/ContributionGrid.tsx';
 import Links from '@/components/links/Links.tsx';
 import LoginPage from '../../pages/LoginPage';
 import SignupPage from '../../pages/SignupPage';

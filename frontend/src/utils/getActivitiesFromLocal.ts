@@ -1,4 +1,4 @@
-import type { DateItem } from '@/components/grid/Grid';
+import type { DateItem } from '@/components/grid/ContributionGrid';
 
 export async function getActivities(): Promise<DateItem[]> {
   const url = 'http://localhost:3000/api/activities';

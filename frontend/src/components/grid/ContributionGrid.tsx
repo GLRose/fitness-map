@@ -1,14 +1,14 @@
-import Boxes from '@/components/boxes/Boxes';
+import Boxes from '@/components/boxes/ContributionBoxes';
 import { format, addDays, parse } from 'date-fns';
 // Manual DB
 // import { getActivities } from '@/utils/getActivities';
 // Supabasae
-// import { getActivities } from '@/utils/getActivitiesFromSb';
-import Logout from '@/components/grid/Logout';
+import Logout from '@/components/login/Logout';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
-import { insertActivityForUser } from '@/utils/getActivitiesFromSb';
+import { upsertActivityForUser } from '@/utils/getActivitiesFromSb';
+import { getActivities } from '@/utils/getActivitiesFromSb';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
@@ -20,7 +20,6 @@ export interface DateItem {
 }
 
 export default function Grid() {
-  // getSB();
   const [dateRange, setDateRange] = useState<DateItem[]>(() => {
     const saved = localStorage.getItem('dateRange');
     return saved ? JSON.parse(saved) : setDate();
@@ -45,8 +44,31 @@ export default function Grid() {
     localStorage.setItem('difficultyOption', difficultyLevel);
   }, [dateRange, themeName, difficultyLevel]);
 
-  const handleSubmit = (event: React.FormEvent, targetDate?: string) => {
-    insertActivityForUser();
+  useEffect(() => {
+    async function loadData() {
+      const activities = await getActivities();
+
+      if (activities) {
+        setDateRange((currentGrid) =>
+          currentGrid.map((day) => {
+            // Find if there is an activity that matches this day's date
+            const matchingActivity = activities.find(
+              (a: DateItem) => a.date === day.date // Ensure your column names match
+            );
+
+            // If found, merge the activity data into the day object
+            return matchingActivity
+              ? { ...day, ...matchingActivity, hasActivity: true }
+              : day;
+          })
+        );
+      }
+    }
+
+    loadData();
+  }, []);
+
+  const handleSubmit = async (event: React.FormEvent, targetDate?: string) => {
     event.preventDefault();
     const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
     //For testing days ahead...
@@ -96,6 +118,16 @@ export default function Grid() {
           : item
       );
     });
+    try {
+      await upsertActivityForUser({
+        activity: true,
+        date: dateToMark,
+        level: difficultyLevel,
+      });
+      console.log('Database updated successfully');
+    } catch (error) {
+      console.error('Database sync failed', error);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -229,7 +261,7 @@ export default function Grid() {
             weight="bold"
             size="5"
           >
-            DAYS WORKED OUT: {activeDaysCount}
+            DAYS WORKED OUT: {activeDaysCount} / 365
           </Text>
         </div>
       </form>
