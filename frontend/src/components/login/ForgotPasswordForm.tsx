@@ -30,7 +30,8 @@ export function ForgotPasswordForm({
     try {
       // Reconfigure redirect when switched to an actual domain. Add to supabase redirects.
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'http://localhost:5173/fitness-map/update-password',
+        // redirectTo: 'http://localhost:5173/fitness-map/update-password',
+        redirectTo: 'https://glrose.github.io/fitness-map/update-password',
       });
       if (error) throw error;
       setSuccess(true);
