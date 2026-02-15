@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // Use Link for SPA navigation
 import { cn } from '@/lib/utils';
-import { createClient } from '@/lib/supabase/client';
+import { supabase } from '@/lib/supabase/client'; // Use your existing client instance
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -23,25 +24,39 @@ export function SignUpForm({
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const getRedirectURL = () => {
+    const isLocal = window.location.hostname === 'localhost';
+    return isLocal 
+      ? 'http://localhost:5173/fitness-map/' 
+      : 'https://glrose.github.io/fitness-map/';
+  };
+
   const handleSignUp = async (e: React.FormEvent) => {
-    const supabase = createClient();
     e.preventDefault();
     setError(null);
 
+    // Validation
     if (password !== repeatPassword) {
       setError('Passwords do not match');
       return;
     }
-    setIsLoading(true);
+
     if (password.length < 12) {
       setError('Invalid Password, password must be at least 12 characters');
+      return;
     }
+
+    setIsLoading(true);
 
     try {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: getRedirectURL(),
+        },
       });
+
       if (error) throw error;
       setSuccess(true);
     } catch (error: unknown) {
@@ -112,19 +127,19 @@ export function SignUpForm({
                     onChange={(e) => setRepeatPassword(e.target.value)}
                   />
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
+                {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Creating an account...' : 'Sign up'}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
                 Already have an account?{' '}
-                <a
-                  href="/fitness-map/login/"
-                  className="underline underline-offset-4"
+                <Link
+                  to="/login"
+                  className="underline underline-offset-4 hover:text-primary"
                 >
                   Login
-                </a>
+                </Link>
               </div>
             </form>
           </CardContent>
