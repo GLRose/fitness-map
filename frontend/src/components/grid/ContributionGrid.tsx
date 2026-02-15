@@ -1,14 +1,13 @@
-import Boxes from '@/components/boxes/ContributionBoxes';
-import { format, addDays, parse } from 'date-fns';
 // Manual DB
 // import { getActivities } from '@/utils/getActivities';
-// Supabasae
+import Boxes from '@/components/boxes/ContributionBoxes';
+import { format, addDays, parse } from 'date-fns';
 import Logout from '@/components/login/Logout';
 import { setDate } from '@/utils/dateRange.ts';
 import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
-import { upsertActivityForUser } from '@/utils/getActivitiesFromSb';
-import { getActivities } from '@/utils/getActivitiesFromSb';
+// Supabasae
+import { getActivities, upsertActivityForUser } from '@/utils/supabase/sbCrud';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 

@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import LinksCard from '@/components/links/cards/LinksCard';
 import type { WorkoutDetails } from '@/components/links/cards/LinksCard';
 import { format } from 'date-fns';
+import { upsertLinksForUser, getLinks } from '@/utils/supabase/sbCrud';
 
 export default function Links() {
   const [url, setUrl] = useState('');
 
+  //TODO: just set this to an empty array when I finish moving away from localStorage
   const [links, setLinks] = useState<WorkoutDetails[]>(() => {
     const saved = localStorage.getItem('links');
     return saved ? JSON.parse(saved) : [];
@@ -15,6 +17,20 @@ export default function Links() {
   useEffect(() => {
     localStorage.setItem('links', JSON.stringify(links));
   }, [links]);
+  useEffect(() => {
+    const loadLinks = async () => {
+      try {
+        const data = await getLinks();
+        if (data) {
+          setLinks(data);
+        }
+      } catch (error) {
+        console.error('Error loading links:', error);
+      }
+    };
+
+    loadLinks();
+  }, []); // Empty dependency array means this runs once when the page loads
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,22 +47,35 @@ export default function Links() {
     setUrl('');
   };
 
-  const updateInputs = (
+  const updateInputs = async (
     index: number,
     title: string,
     activityDescription: string
   ) => {
-    setLinks((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
+    const updatedLinks = [...links];
+    const targetLink = updatedLinks[index];
+
+    const updatedItem = {
+      ...targetLink,
+      workoutTitle: title,
+      activityText: activityDescription,
+      date: targetLink.date || format(new Date(), 'yyyy-MM-dd'),
+    };
+
+    updatedLinks[index] = updatedItem;
+    setLinks(updatedLinks);
+
+    try {
+      await upsertLinksForUser({
+        url: updatedItem.url,
         workoutTitle: title,
         activityText: activityDescription,
-        date: updated[index].date || format(new Date(), 'yyyy-MM-dd'),
-      };
-
-      return updated;
-    });
+        date: updatedItem.date,
+      });
+      console.log('Database synced');
+    } catch (error) {
+      console.error('Failed to sync to database', error);
+    }
   };
 
   const handleDelete = (index: number) => {
