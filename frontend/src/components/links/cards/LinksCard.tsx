@@ -34,7 +34,6 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
   const formattedDate = isValid(parsedDate) ? format(date, 'MMM dd, yyyy') : '';
 
   const handleSubmit = () => {
-    if (!inputValue.trim() || !activityDescription.trim()) return;
     onAdd(inputValue, activityDescription);
     setIsEditing(false);
   };

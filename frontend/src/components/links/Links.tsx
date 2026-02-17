@@ -89,7 +89,7 @@ export default function Links() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '10px',
+          gap: '5px',
           paddingBottom: '10px',
         }}
       >
@@ -97,7 +97,7 @@ export default function Links() {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '15px',
+            gap: '5px',
             listStyle: 'none',
             justifyContent: 'center',
           }}

@@ -108,10 +108,11 @@
 .form {
   display: flex;
   width: 300px;
-  height: 300px;
+  /* height: auto; */
+  /* min-height: 100px; */
   /* add back if you want inputs */
   /* background-color: #0A1A2F; */
-  margin: 100px auto;
+  margin: 150px auto 1px auto;
   border-style: rounded;
   border-color: white;
   border-radius: 20px;
