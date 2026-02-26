@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import LinksCard from '@/components/links/cards/LinksCard';
-import type { WorkoutDetails } from '@/components/links/cards/LinksCard';
+import type { LinkRow } from '@/utils/supabase/interfaces';
 import { format } from 'date-fns';
-import { upsertLinksForUser, getLinks } from '@/utils/supabase/sbCrud';
+import { upsertLinksForUser, getLinks, deleteLink } from '@/utils/supabase/sbCrud';
 
 export default function Links() {
   const [url, setUrl] = useState('');
 
   //TODO: just set this to an empty array when I finish moving away from localStorage
-  const [links, setLinks] = useState<WorkoutDetails[]>(() => {
+  const [links, setLinks] = useState<LinkRow[]>(() => {
     const saved = localStorage.getItem('links');
     return saved ? JSON.parse(saved) : [];
   });
@@ -36,7 +36,7 @@ export default function Links() {
     event.preventDefault();
     if (!url.trim()) return;
 
-    const newLink: WorkoutDetails = {
+    const newLink: LinkRow = {
       url: url.trim(),
       workoutTitle: '',
       activityText: '',
@@ -66,20 +66,35 @@ export default function Links() {
     setLinks(updatedLinks);
 
     try {
-      await upsertLinksForUser({
+      const upserted = await upsertLinksForUser({
         url: updatedItem.url,
         workoutTitle: title,
         activityText: activityDescription,
         date: updatedItem.date,
       });
+
+      if (upserted?.id) {
+        setLinks((prev) =>
+          prev.map((l, i) => (i === index ? { ...l, id: upserted.id } : l))
+        );
+      }
       console.log('Database synced');
     } catch (error) {
       console.error('Failed to sync to database', error);
     }
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (index: number) => {
+    const link = links[index];
     setLinks((prev) => prev.filter((_, i) => i !== index));
+
+    if (link.id) {
+      try {
+        await deleteLink(link.id);
+      } catch (error) {
+        console.error('Failed to delete from database', error);
+      }
+    }
   };
 
   return (

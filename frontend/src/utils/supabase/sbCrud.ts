@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import type { ActivityRow, LinkRow } from './interfaces';
 const supabaseUrl = 'https://dxmttvtrjnrumqmmunoc.supabase.co';
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey || '');
@@ -12,7 +13,7 @@ export async function getActivities() {
     return;
   }
 
-  console.log(`Activity is: ${JSON.stringify(activity)}`);
+//   console.log(`Activity is: ${JSON.stringify(activity)}`);
 
   return activity;
 }
@@ -25,15 +26,9 @@ export async function getLinks() {
     return;
   }
 
-  console.log(`Links are: ${JSON.stringify(links)}`);
+//   console.log(`Links are: ${JSON.stringify(links)}`);
 
   return links;
-}
-
-interface ActivityRow {
-  activity: boolean;
-  date: string;
-  level: string;
 }
 
 export async function upsertActivityForUser(activityData: ActivityRow) {
@@ -65,13 +60,7 @@ export async function upsertActivityForUser(activityData: ActivityRow) {
   }
 }
 
-interface LinksRow {
-  activityText: string;
-  date: string;
-  workoutTitle: string;
-  url: string;
-}
-export async function upsertLinksForUser(linksData: LinksRow) {
+export async function upsertLinksForUser(linksData: LinkRow) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -96,7 +85,29 @@ export async function upsertLinksForUser(linksData: LinksRow) {
 
   if (error) {
     console.error('❌ Error:', error.message);
-  } else {
-    console.log('✅ Inserted:', data);
+    return;
+  }
+
+  console.log('✅ Inserted:', data);
+  return data?.[0];
+}
+
+export async function deleteLink(linkId: number) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    console.error('No user logged in');
+    return;
+  }
+
+  const { error } = await supabase
+    .from('links')
+    .delete()
+    .eq('id', linkId)
+    .eq('uuid', user.id);
+
+  if (error) {
+    console.error('Error deleting link:', error.message);
   }
 }

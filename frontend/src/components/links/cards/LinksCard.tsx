@@ -11,16 +11,10 @@ import { TrashIcon } from '@radix-ui/react-icons';
 import { getYouTubeThumbnail } from '@/utils/getYoutubeThumbnail';
 import EditMode from './EditMode';
 import { format, isValid } from 'date-fns';
-
-export interface WorkoutDetails {
-  url: string;
-  workoutTitle: string;
-  activityText: string;
-  date: string;
-}
+import type { LinkRow } from '@/utils/supabase/interfaces';
 
 interface LinksCardProps {
-  data: WorkoutDetails;
+  data: LinkRow;
   onAdd: (title: string, activityDescription: string) => void;
   onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
