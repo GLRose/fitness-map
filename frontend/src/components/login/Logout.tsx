@@ -9,13 +9,8 @@ export default function Logout() {
     navigate('/login/');
   };
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'end',
-      }}
-    >
-      <Button onClick={handleLogout} variant="destructive">
+    <div className="flex justify-end">
+      <Button onClick={handleLogout} variant="destructive" size="sm">
         Logout
       </Button>
     </div>

@@ -1,13 +1,8 @@
 import { useState } from 'react';
-import {
-  Box,
-  IconButton,
-  Card,
-  Flex,
-  TextField,
-  Button,
-} from '@radix-ui/themes';
-import { TrashIcon } from '@radix-ui/react-icons';
+import { Trash2 } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { getYouTubeThumbnail } from '@/utils/getYoutubeThumbnail';
 import EditMode from './EditMode';
 import { format, isValid } from 'date-fns';
@@ -40,19 +35,19 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
   const thumbnail = getYouTubeThumbnail(url);
 
   return (
-    <Box maxWidth="500px">
-      <Card size="5" style={{ height: '500px', position: 'relative' }}>
-        <IconButton
-          variant="solid"
-          color="crimson"
+    <div className="max-w-[500px]">
+      <Card className="h-[500px] relative">
+        <Button
+          variant="destructive"
+          size="icon"
           onClick={onDelete}
-          style={{ position: 'absolute', top: '12px', right: '12px' }}
+          className="absolute top-3 right-3"
         >
-          <TrashIcon cursor="pointer" />
-        </IconButton>
+          <Trash2 className="cursor-pointer" />
+        </Button>
 
-        <Flex gap="3" align="center">
-          <Box style={{ width: '100%' }}>
+        <CardContent className="flex gap-3 items-center pt-0">
+          <div className="w-full">
             {!isEditing ? (
               <EditMode
                 workoutTitle={workoutTitle}
@@ -62,30 +57,28 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
                 onEdit={() => setIsEditing(true)}
               />
             ) : (
-              <Flex gap="2" direction="column" style={{ marginBottom: '50px' }}>
-                <TextField.Root
+              <div className="flex gap-2 flex-col mb-[50px]">
+                <Input
                   value={inputValue}
-                  size="2"
                   placeholder="Title your workout"
                   onChange={(e) => setInputValue(e.target.value)}
                 />
 
-                <TextField.Root
+                <Input
                   value={activityDescription}
-                  size="2"
                   placeholder="Activity Description"
                   onChange={(e) => setActivityDescription(e.target.value)}
                 />
 
-                <Flex gap="2">
+                <div className="flex gap-2">
                   <Button type="button" onClick={handleSubmit}>
                     Save
                   </Button>
-                  <Button type="button" variant="soft" onClick={handleCancel}>
+                  <Button type="button" variant="secondary" onClick={handleCancel}>
                     Cancel
                   </Button>
-                </Flex>
-              </Flex>
+                </div>
+              </div>
             )}
 
             {thumbnail && (
@@ -93,17 +86,13 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
                 <img
                   src={thumbnail}
                   alt="Video thumbnail"
-                  style={{
-                    width: '100%',
-                    borderRadius: '8px',
-                    marginTop: '20px',
-                  }}
+                  className="w-full rounded-lg mt-5"
                 />
               </a>
             )}
-          </Box>
-        </Flex>
+          </div>
+        </CardContent>
       </Card>
-    </Box>
+    </div>
   );
 }

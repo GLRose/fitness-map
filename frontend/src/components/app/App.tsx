@@ -7,10 +7,6 @@ import SignupPage from '../../pages/SignupPage';
 import ForgotPasswordPage from '../../pages/ForgotPasswordPage';
 import UpdatePasswordPage from '../../pages/UpdatePasswordForm';
 import { supabase } from '@/lib/supabase/client'; // Changed this
-import { Theme } from '@radix-ui/themes';
-import '@/styles/index.css';
-import '@/styles/links.css';
-import '@radix-ui/themes/styles.css';
 
 function ProtectedMainApp() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -34,8 +30,8 @@ function ProtectedMainApp() {
   // Loading state
   if (isAuthenticated === null) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading...
+      <div className="flex items-center justify-center min-h-screen app-bg">
+        <span className="text-muted-foreground text-sm tracking-wide animate-pulse">Loading...</span>
       </div>
     );
   }
@@ -47,10 +43,10 @@ function ProtectedMainApp() {
 
   // Authenticated - show main app
   return (
-    <Theme style={{ backgroundColor: '#044447' }}>
+    <div className="app-bg min-h-screen overflow-x-hidden">
       <Grid />
       <Links />
-    </Theme>
+    </div>
   );
 }
 

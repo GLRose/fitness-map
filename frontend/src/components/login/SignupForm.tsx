@@ -127,7 +127,7 @@ export function SignUpForm({
                     onChange={(e) => setRepeatPassword(e.target.value)}
                   />
                 </div>
-                {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
+                {error && <p className="text-sm text-destructive font-medium">{error}</p>}
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Creating an account...' : 'Sign up'}
                 </Button>

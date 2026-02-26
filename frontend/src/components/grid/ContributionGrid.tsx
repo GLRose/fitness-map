@@ -4,7 +4,6 @@ import Boxes from '@/components/boxes/ContributionBoxes';
 import { format, addDays, parse } from 'date-fns';
 import Logout from '@/components/login/Logout';
 import { setDate } from '@/utils/dateRange.ts';
-import { Text } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 // Supabasae
 import { getActivities, upsertActivityForUser } from '@/utils/supabase/sbCrud';
@@ -158,111 +157,113 @@ export default function Grid() {
     return (
       <div key={i} className={className}>
         {i < 7 && (
-          <Text weight="bold" size="3" color="ruby">
+          <span className="text-xs font-semibold text-foreground/70">
             {dayLetter}
-          </Text>
+          </span>
         )}
       </div>
     );
   });
 
+  const themes = [
+    { name: 'default', label: 'Default' },
+    { name: 'powerPink', label: 'Pink' },
+    { name: 'growingGreen', label: 'Green' },
+  ] as const;
+
+  const difficulties = [
+    { value: 'easy', label: 'Easy' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'hard', label: 'Hard' },
+  ] as const;
+
   return (
     <>
-      <div>
+      {/* Top bar: logo + logout */}
+      <div className="flex items-center justify-between px-4 pt-4 pb-2">
+        <h1
+          className="text-5xl leading-none text-primary"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+        >
+          Log It!
+        </h1>
         <Logout />
       </div>
-      <div className="theme-names-container">
-        <div className="theme-names">
-          <div className="theme-names-shadow">
-            <h2>Theme:&nbsp;</h2>
 
-            <Text as="div" size="5">
-              Default
-            </Text>
-            <input
-              type="radio"
-              name="default"
-              checked={themeName === 'default'}
-              onChange={handleChange}
-            />
-
-            <Text as="div" size="5">
-              Pink
-            </Text>
-            <input
-              type="radio"
-              name="powerPink"
-              checked={themeName === 'powerPink'}
-              onChange={handleChange}
-            />
-
-            <Text as="div" size="5">
-              Green
-            </Text>
-            <input
-              type="radio"
-              name="growingGreen"
-              checked={themeName === 'growingGreen'}
-              onChange={handleChange}
-            />
-            <div>&nbsp;</div>
-          </div>
+      {/* Theme selector */}
+      <div className="flex justify-center px-4 mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mr-1">
+            Theme
+          </span>
+          {themes.map(({ name, label }) => (
+            <label
+              key={name}
+              className={`cursor-pointer select-none px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                themeName === name
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'bg-card border border-border text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <input
+                type="radio"
+                name={name}
+                checked={themeName === name}
+                onChange={handleChange}
+                className="sr-only"
+              />
+              {label}
+            </label>
+          ))}
         </div>
       </div>
 
       <Boxes elements={elements} />
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="log-activity-submit">
-          <button type="submit" className="submit-form">
-            Log Activity
-          </button>
+
+      {/* Log action panel */}
+      <form
+        className="flex flex-col items-center w-full max-w-xs mx-auto mt-8 mb-6 px-4 gap-3"
+        onSubmit={handleSubmit}
+      >
+        {/* Difficulty pills — directly above the button to show intent */}
+        <div className="flex flex-col items-center gap-2 w-full">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            Difficulty
+          </span>
+          <div className="flex gap-2">
+            {difficulties.map(({ value, label }) => (
+              <label
+                key={value}
+                className={`cursor-pointer select-none px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  difficultyLevel === value
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'bg-card border border-border text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="difficulty"
+                  value={value}
+                  checked={difficultyLevel === value}
+                  onChange={handleDifficultyChange}
+                  className="sr-only"
+                />
+                {label}
+              </label>
+            ))}
+          </div>
         </div>
-        <h2>Difficulty:&nbsp;</h2>
 
-        <Text as="div" size="5">
-          Easy
-        </Text>
+        <button
+          type="submit"
+          className="w-full h-14 rounded-xl text-xl font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 active:scale-95 transition-all duration-150 cursor-pointer"
+        >
+          Log Activity
+        </button>
 
-        <input
-          type="radio"
-          name="difficulty"
-          onChange={handleDifficultyChange}
-          value="easy"
-          checked={difficultyLevel === 'easy'}
-        />
-
-        <Text as="div" size="5">
-          Medium
-        </Text>
-        <input
-          type="radio"
-          name="difficulty"
-          onChange={handleDifficultyChange}
-          value="medium"
-          checked={difficultyLevel === 'medium'}
-        />
-        <Text as="div" size="5">
-          Hard
-        </Text>
-        <input
-          type="radio"
-          name="difficulty"
-          onChange={handleDifficultyChange}
-          value="hard"
-          checked={difficultyLevel === 'hard'}
-        />
-        <div>
-          <Text
-            as="p"
-            style={{ color: 'pink', paddingLeft: '10px' }}
-            highContrast
-            wrap="nowrap"
-            weight="bold"
-            size="5"
-          >
-            DAYS WORKED OUT: {activeDaysCount} / 365
-          </Text>
-        </div>
+        <p className="text-sm font-semibold text-primary text-center">
+          {activeDaysCount} / 365 days
+        </p>
       </form>
     </>
   );

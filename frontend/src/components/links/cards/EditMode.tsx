@@ -1,5 +1,3 @@
-import { Text, Link } from '@radix-ui/themes';
-
 interface EditProps {
   workoutTitle: string;
   activityText: string;
@@ -17,49 +15,37 @@ export default function EditMode({
 }: EditProps) {
   return (
     <>
-      <Text
-        as="div"
-        size="5"
-        weight="bold"
-        style={{ marginBottom: '5px', cursor: 'pointer' }}
+      <div
+        className="text-base font-semibold mb-1 cursor-pointer text-foreground hover:text-primary transition-colors"
         onClick={onEdit}
       >
         {workoutTitle?.toUpperCase() || 'Untitled Workout'}
-      </Text>
+      </div>
 
-      <Text as="div" size="2" weight="bold">
-        Activity Description:
-      </Text>
+      <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-2">Activity Description:</div>
 
-      <Text
-        as="div"
-        size="2"
-        weight="regular"
-        style={{ marginBottom: '5px', cursor: 'pointer' }}
+      <div
+        className="text-sm mb-1 cursor-pointer text-foreground/80 hover:text-foreground transition-colors"
         onClick={onEdit}
       >
         {activityText || 'Untitled Activity'}
-      </Text>
+      </div>
 
-      <Text as="div" size="2" weight="bold">
-        Url:
-      </Text>
+      <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-2">Url:</div>
 
-      <Link href={url} size="2" truncate>
+      <a href={url} className="text-sm truncate text-primary hover:underline block">
         {url}
-      </Link>
+      </a>
 
-      <Text as="div" size="2" weight="bold">
-        Completed On:
-      </Text>
+      <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-2">Completed On:</div>
 
-      <Text as="div" size="2">
+      <div className="text-sm">
         {currentDate && (
-          <Text size="1" color="gray" style={{ marginTop: '8px' }}>
-            Added: {currentDate}
-          </Text>
+          <span className="text-xs text-muted-foreground mt-1 block">
+            {currentDate}
+          </span>
         )}
-      </Text>
+      </div>
     </>
   );
 }
