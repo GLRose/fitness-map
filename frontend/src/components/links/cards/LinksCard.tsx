@@ -35,8 +35,8 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
   const thumbnail = getYouTubeThumbnail(url);
 
   return (
-    <div className="max-w-[500px]">
-      <Card className="h-[500px] relative">
+    <li className="min-w-0 max-w-[500px] w-full">
+      <Card className="h-[500px] relative w-full">
         <Button
           variant="destructive"
           size="icon"
@@ -93,6 +93,6 @@ export default function LinksCard({ data, onAdd, onDelete }: LinksCardProps) {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </li>
   );
 }

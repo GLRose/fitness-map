@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import LinksCard from '@/components/links/cards/LinksCard';
 import type { LinkRow } from '@/utils/supabase/interfaces';
 import { format } from 'date-fns';
@@ -6,6 +7,7 @@ import { upsertLinksForUser, getLinks, deleteLink } from '@/utils/supabase/sbCru
 
 export default function Links() {
   const [url, setUrl] = useState('');
+  const [videosCollapsed, setVideosCollapsed] = useState(false);
 
   //TODO: just set this to an empty array when I finish moving away from localStorage
   const [links, setLinks] = useState<LinkRow[]>(() => {
@@ -100,12 +102,27 @@ export default function Links() {
   return (
     <div className="flex flex-col items-center w-full px-4 pb-8">
       <div className="w-full max-w-4xl">
-        {/* Section divider + heading */}
+        {/* Section divider + heading + collapse */}
         <div className="flex items-center gap-3 mb-4">
           <div className="flex-1 border-t border-border opacity-40" />
-          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
-            Workout Videos
-          </span>
+          {links.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setVideosCollapsed((c) => !c)}
+              className="group flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-widest hover:text-foreground transition-colors cursor-pointer"
+            >
+              Workout Videos ({links.length})
+              {videosCollapsed ? (
+                <ChevronDown className="size-3.5 transition-colors group-hover:text-primary" />
+              ) : (
+                <ChevronUp className="size-3.5 transition-colors group-hover:text-primary" />
+              )}
+            </button>
+          ) : (
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+              Workout Videos
+            </span>
+          )}
           <div className="flex-1 border-t border-border opacity-40" />
         </div>
 
@@ -132,8 +149,16 @@ export default function Links() {
           <p className="text-center text-sm text-muted-foreground py-4">
             No workout videos yet — paste a URL above to add one.
           </p>
+        ) : videosCollapsed ? (
+          <button
+            type="button"
+            onClick={() => setVideosCollapsed(false)}
+            className="w-full py-3 rounded-lg border border-border bg-card/50 text-sm text-muted-foreground hover:text-foreground hover:bg-card/80 transition text-center"
+          >
+            {links.length} video{links.length !== 1 ? 's' : ''} — click to expand
+          </button>
         ) : (
-          <ul className="flex flex-wrap gap-3 list-none justify-center w-full">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-3 list-none w-full">
             {links.map((link, index) => (
               <LinksCard
                 key={index}
