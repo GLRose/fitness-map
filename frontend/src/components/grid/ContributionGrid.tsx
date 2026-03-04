@@ -69,62 +69,52 @@ export default function Grid() {
   const handleSubmit = async (event: React.FormEvent, targetDate?: string) => {
     event.preventDefault();
     const dateToMark = targetDate || format(new Date(), 'yyyy-MM-dd');
-    //For testing days ahead...
-    // const dateToMark =
-    //   targetDate || format(addDays(new Date(), 3), 'yyyy-MM-dd');
-    // const selectedLevel = difficultyLevel;
-    // console.log('selected level', selectedLevel);
 
     setDateRange((prev) => {
-      // Check if date exists in range
-      const dateExists = prev.some((item) => item.date === dateToMark);
-
-      if (!dateExists) {
-        // Add the missing date(s) to the array
-        const lastDate = prev[prev.length - 1]?.date;
-        if (lastDate) {
-          const newDates: DateItem[] = [...prev];
-          let currentDate = addDays(
-            parse(lastDate, 'yyyy-MM-dd', new Date()),
-            1
-          );
-          const targetDateParsed = parse(dateToMark, 'yyyy-MM-dd', new Date());
-
-          // Add all dates from last date to target date
-          while (currentDate <= targetDateParsed) {
-            newDates.push({
-              date: format(currentDate, 'yyyy-MM-dd'),
-              activity: false,
-              // level: difficultyLevel,
-            });
-            currentDate = addDays(currentDate, 1);
-          }
-
-          // Mark the target date as active
-          return newDates.map((item) =>
-            item.date === dateToMark
-              ? { ...item, activity: true, level: difficultyLevel }
-              : item
-          );
-        }
+      const idx = prev.findIndex((item) => item.date === dateToMark);
+      if (idx >= 0) {
+        return prev.map((item, i) =>
+          i === idx
+            ? { ...item, activity: true, level: difficultyLevel }
+            : item
+        );
       }
+      const lastDate = prev[prev.length - 1]?.date;
+      if (!lastDate) return prev;
 
-      // Date exists, just mark it active
-      return prev.map((item) =>
-        item.date === dateToMark
-          ? { ...item, activity: true, level: difficultyLevel }
-          : item
+      const targetDateParsed = parse(dateToMark, 'yyyy-MM-dd', new Date());
+      let currentDate = addDays(
+        parse(lastDate, 'yyyy-MM-dd', new Date()),
+        1
       );
+      const newSegment: DateItem[] = [];
+      while (currentDate <= targetDateParsed) {
+        const dateStr = format(currentDate, 'yyyy-MM-dd');
+        newSegment.push({
+          date: dateStr,
+          activity: dateStr === dateToMark,
+          ...(dateStr === dateToMark && { level: difficultyLevel }),
+        });
+        currentDate = addDays(currentDate, 1);
+      }
+      return [...prev, ...newSegment];
     });
+
     try {
       await upsertActivityForUser({
         activity: true,
         date: dateToMark,
         level: difficultyLevel,
       });
-      console.log('Database updated successfully');
     } catch (error) {
       console.error('Database sync failed', error);
+      setDateRange((prev) =>
+        prev.map((item) =>
+          item.date === dateToMark
+            ? { ...item, activity: false, level: undefined }
+            : item
+        )
+      );
     }
   };
 
@@ -142,6 +132,11 @@ export default function Grid() {
   const activeDaysCount = dateRange.reduce(
     (acc, item) => acc + (item.activity ? 1 : 0),
     0
+  );
+
+  const todayStr = format(new Date(), 'yyyy-MM-dd');
+  const todayLogged = dateRange.some(
+    (item) => item.date === todayStr && item.activity
   );
 
   const elements = dateRange.map((item, i) => {
@@ -234,7 +229,11 @@ export default function Grid() {
             {difficulties.map(({ value, label }) => (
               <label
                 key={value}
-                className={`cursor-pointer select-none px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                className={`select-none px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  todayLogged
+                    ? 'cursor-not-allowed opacity-60'
+                    : 'cursor-pointer'
+                } ${
                   difficultyLevel === value
                     ? 'bg-primary text-primary-foreground shadow-sm'
                     : 'bg-card border border-border text-muted-foreground hover:text-foreground'
@@ -247,6 +246,7 @@ export default function Grid() {
                   checked={difficultyLevel === value}
                   onChange={handleDifficultyChange}
                   className="sr-only"
+                  disabled={todayLogged}
                 />
                 {label}
               </label>
@@ -256,9 +256,10 @@ export default function Grid() {
 
         <button
           type="submit"
-          className="w-full h-14 rounded-xl text-xl font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 active:scale-95 transition-all duration-150 cursor-pointer"
+          disabled={todayLogged}
+          className="w-full h-14 rounded-xl text-xl font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 active:scale-95 transition-all duration-150 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:active:scale-100"
         >
-          Log Activity
+          {todayLogged ? 'Logged for today' : 'Log Activity'}
         </button>
 
         <p className="text-sm font-semibold text-primary text-center">
