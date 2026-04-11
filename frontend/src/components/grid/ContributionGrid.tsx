@@ -5,7 +5,6 @@ import { format, addDays, parse } from 'date-fns';
 import Logout from '@/components/login/Logout';
 import { setDate } from '@/utils/dateRange.ts';
 import { useState, useEffect } from 'react';
-// Supabasae
 import { getActivities, upsertActivityForUser } from '@/utils/supabase/sbCrud';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
@@ -215,12 +214,10 @@ export default function Grid() {
 
       <Boxes elements={elements} />
 
-      {/* Log action panel */}
       <form
         className="flex flex-col items-center w-full max-w-xs mx-auto mt-8 mb-6 px-4 gap-3"
         onSubmit={handleSubmit}
       >
-        {/* Difficulty pills — directly above the button to show intent */}
         <div className="flex flex-col items-center gap-2 w-full">
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             Difficulty
